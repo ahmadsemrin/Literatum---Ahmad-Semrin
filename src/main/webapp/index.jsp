@@ -40,10 +40,8 @@
                 <li><a href="#team" class="page-scroll">Team</a></li>
                 <li><a href="#contact" class="page-scroll">Contact</a></li>
                 <a href="/login" class="btn btn-custom btn-lg page-scroll">Login</a>
-                <a href="#features">&emsp;<font size="3">Sign up</font></a>
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
 </nav>
 <!-- Header -->
