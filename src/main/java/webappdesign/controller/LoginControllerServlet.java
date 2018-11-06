@@ -1,5 +1,9 @@
 package webappdesign.controller;
 
+import webappdesign.action.LoginAction;
+import webappdesign.form.UserForm;
+import webappdesign.model.User;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +32,18 @@ public class LoginControllerServlet extends HttpServlet {
 
         String dispatchUrl = null;
         if ("login".equals(action)) {
-            // no action class, just forward
+            UserForm userForm = new UserForm();
+            userForm.setUsername(request.getParameter("username"));
+            userForm.setPassword(request.getParameter("password"));
+
+            User newUser = new User();
+            newUser.setUsername(userForm.getUsername());
+            newUser.setPassword(userForm.getPassword());
+
+            LoginAction loginAction = new LoginAction();
+            loginAction.login(newUser);
+
+            // request.setAttribute("User", newUser);
             dispatchUrl = "/jsp/login_page/LoginPage.jsp";
         }
 
