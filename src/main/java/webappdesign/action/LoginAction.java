@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class LoginAction {
     public void login(User user) {
-        try {
+        /*try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Literatum","root","123");
@@ -23,6 +23,6 @@ public class LoginAction {
             ex.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
