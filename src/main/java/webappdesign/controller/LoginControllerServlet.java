@@ -26,7 +26,6 @@ public class LoginControllerServlet extends HttpServlet {
         int lastIndex = uri.lastIndexOf("/");
         String action = uri.substring(lastIndex + 1);
 
-        // execute an action
         String dispatchUrl = null;
         if ("login".equals(action)) {
             // no action class, just forward
