@@ -36,6 +36,8 @@ public class DispatcherFilter implements Filter {
 
             // request.setAttribute("User", newUser);
             dispatchUrl = "/jsp/login_page/LoginPage.jsp";
+        } else if ("admin".equals(action)) {
+            dispatchUrl = "/jsp/wat_page/wat.jsp";
         }
 
         if (dispatchUrl != null) {
