@@ -4,28 +4,19 @@ import webappdesign.action.LoginAction;
 import webappdesign.form.UserForm;
 import webappdesign.model.User;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/login"})
-public class LoginControllerServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
-        process(request, response);
+@WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
+public class DispatcherFilter implements Filter {
+    public void destroy() {
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException,
             IOException {
-        process(request, response);
-    }
-
-    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+        HttpServletRequest request = (HttpServletRequest) req;
         String uri = request.getRequestURI();
         int lastIndex = uri.lastIndexOf("/");
         String action = uri.substring(lastIndex + 1);
@@ -48,8 +39,15 @@ public class LoginControllerServlet extends HttpServlet {
         }
 
         if (dispatchUrl != null) {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(dispatchUrl);
-            requestDispatcher.forward(request, response);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(dispatchUrl);
+            requestDispatcher.forward(req, resp);
+        } else {
+            chain.doFilter(req, resp);
         }
     }
+
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+
 }
