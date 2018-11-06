@@ -30,7 +30,7 @@ public class LoginControllerServlet extends HttpServlet {
         String dispatchUrl = null;
         if ("login".equals(action)) {
             // no action class, just forward
-            dispatchUrl = "/jsp/LoginPage.jsp";
+            dispatchUrl = "/jsp/login_page/LoginPage.jsp";
         }
 
         if (dispatchUrl != null) {
