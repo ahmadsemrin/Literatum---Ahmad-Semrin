@@ -28,7 +28,7 @@
     <!--===============================================================================================-->
 </head>
 <body>
-
+s
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
@@ -49,7 +49,7 @@
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-                    <input class="input100" type="password" name="pass">
+                    <input class="input100" type="password" name="password">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>
 

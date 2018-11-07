@@ -24,11 +24,11 @@ public class DispatcherFilter implements Filter {
         String dispatchUrl = null;
         if ("login".equals(action)) {
             UserForm userForm = new UserForm();
-            userForm.setUsername(request.getParameter("username"));
+            userForm.setEmail(request.getParameter("email"));
             userForm.setPassword(request.getParameter("password"));
 
             User newUser = new User();
-            newUser.setUsername(userForm.getUsername());
+            newUser.setEmail(userForm.getEmail());
             newUser.setPassword(userForm.getPassword());
 
             LoginAction loginAction = new LoginAction();

@@ -6,14 +6,14 @@ import java.sql.*;
 
 public class LoginAction {
     public void login(User user) {
-        /*try {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/Literatum","root","123");
 
-            String query = "INSERT INTO User(username, password) VALUES (?, ?)";
+            String query = "INSERT INTO User(email, password) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
 
             preparedStatement.execute();
@@ -23,6 +23,6 @@ public class LoginAction {
             ex.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
