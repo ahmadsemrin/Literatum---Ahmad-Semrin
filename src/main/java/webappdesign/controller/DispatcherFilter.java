@@ -35,11 +35,11 @@ public class DispatcherFilter implements Filter {
             loginAction.login(newUser);
 
             // request.setAttribute("User", newUser);
-            dispatchUrl = "/jsp/login_page/LoginPage.jsp";
+            dispatchUrl = "/jsp/login_page/login_page.jsp";
         } else if ("admin".equals(action)) {
             dispatchUrl = "/jsp/wat_page/wat.jsp";
         } else if ("sign-up".equals(action)) {
-            dispatchUrl = "/jsp/signup_page/signup.jsp";
+            dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
         } else if ("upload".equals(action)) {
             dispatchUrl = "/jsp/upload_file_page/upload.jsp";
         }
