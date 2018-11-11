@@ -40,6 +40,8 @@ public class DispatcherFilter implements Filter {
             dispatchUrl = "/jsp/wat_page/wat.jsp";
         } else if ("sign-up".equals(action)) {
             dispatchUrl = "/jsp/signup_page/signup.jsp";
+        } else if ("upload".equals(action)) {
+            dispatchUrl = "/jsp/upload_file_page/upload.jsp";
         }
 
         if (dispatchUrl != null) {
