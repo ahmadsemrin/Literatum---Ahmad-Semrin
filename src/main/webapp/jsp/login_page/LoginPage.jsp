@@ -28,7 +28,8 @@
     <!--===============================================================================================-->
 </head>
 <body>
-s
+
+<form method="post">
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
@@ -56,10 +57,16 @@ s
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">
+                        <a class="login100-form-btn" href="/admin">
                             Login
-                        </button>
+                        </a>
                     </div>
+                </div>
+
+                <div class="text-center p-t-115">
+                    <span class="txt1" id="txt">
+
+                    </span>
                 </div>
 
                 <div class="text-center p-t-115">
@@ -67,7 +74,7 @@ s
 							Don&apos;t have an account?
 						</span>
 
-                    <a class="txt2" href="#">
+                    <a class="txt2" href="/sign-up">
                         Sign Up
                     </a>
                 </div>
@@ -75,6 +82,7 @@ s
         </div>
     </div>
 </div>
+</form>
 
 
 <div id="dropDownSelect1"></div>
