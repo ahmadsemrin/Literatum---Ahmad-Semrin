@@ -8,7 +8,7 @@
 <body>
   <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <div class="file-upload">
-  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Upload a File</button>
+  <a href="/uploaded"><button class="file-upload-btn" type="button" onclick="$trigger( 'click' )">Upload File</button></a>
   <div class="image-upload-wrap">
     <input class="file-upload-input" type='file' onchange="readURL(this);" accept="zip/*" />
     <div class="drag-text">

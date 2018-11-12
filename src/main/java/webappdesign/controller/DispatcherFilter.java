@@ -42,6 +42,8 @@ public class DispatcherFilter implements Filter {
             dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
         } else if ("upload".equals(action)) {
             dispatchUrl = "/jsp/upload_file_page/upload.jsp";
+        } else if ("uploaded".equals(action)) {
+            dispatchUrl = "/jsp/upload_file_page/uploaded.jsp";
         }
 
         if (dispatchUrl != null) {
