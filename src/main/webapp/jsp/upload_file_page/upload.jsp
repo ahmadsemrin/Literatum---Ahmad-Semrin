@@ -8,13 +8,15 @@
 <body>
   <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <div class="file-upload">
-  <a href="/uploaded"><button class="file-upload-btn" type="button" onclick="$trigger( 'click' )">Upload File</button></a>
-  <div class="image-upload-wrap">
-    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="zip/*" />
-    <div class="drag-text">
-      <h3>Drag and drop a file or select add File</h3>
+  <form method="post" action="uploaded">
+    <button class="file-upload-btn" type="submit" onclick="$trigger( 'click' )">Upload File</button>
+    <div class="image-upload-wrap">
+      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="zip/*" name="file" id="file" />
+      <div class="drag-text">
+        <h3>Drag and drop a file or select add File</h3>
+      </div>
     </div>
-  </div>
+  </form>
   <div class="file-upload-content">
     <div class="image-title-wrap">
       <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded File</span></button>
