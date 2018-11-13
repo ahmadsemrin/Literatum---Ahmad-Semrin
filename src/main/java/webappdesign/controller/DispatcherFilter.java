@@ -17,6 +17,8 @@ import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
 public class DispatcherFilter implements Filter {
+    User currentUser;
+
     public void destroy() {
     }
 
@@ -38,9 +40,14 @@ public class DispatcherFilter implements Filter {
             newUser.setPassword(userForm.getPassword());
 
             LoginAction loginAction = new LoginAction();
-            loginAction.login(newUser);
+            currentUser = loginAction.login(newUser);
 
-            // request.setAttribute("User", newUser);
+            if (currentUser != null) {
+                System.out.println(currentUser.getRole());
+            } else {
+                System.out.println("No such user.");
+            }
+
             dispatchUrl = "/jsp/login_page/login.jsp";
         } else if ("admin".equals(action)) {
             dispatchUrl = "/jsp/wat_page/wat.jsp";
