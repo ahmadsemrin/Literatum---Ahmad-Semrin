@@ -1,15 +1,27 @@
 package webappdesign.controller;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import webappdesign.action.LoginAction;
+import webappdesign.action.UploadFileAction;
 import webappdesign.form.UserForm;
 import webappdesign.model.User;
 
 import javax.servlet.*;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
+@MultipartConfig(fileSizeThreshold = 6291456, // 6 MB
+        maxFileSize = 10485760L, // 10 MB
+        maxRequestSize = 20971520L // 20 MB
+)
 public class DispatcherFilter implements Filter {
     public void destroy() {
     }
@@ -49,6 +61,18 @@ public class DispatcherFilter implements Filter {
         if (dispatchUrl != null) {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(dispatchUrl);
             requestDispatcher.forward(req, resp);
+
+            if ("uploaded".equals(action)) {
+                ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
+                try {
+                    List<FileItem> multiFiles = servletFileUpload.parseRequest(request);
+
+                    UploadFileAction uploadFileAction = new UploadFileAction();
+                    uploadFileAction.uploadFiles(multiFiles);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
             chain.doFilter(req, resp);
         }
@@ -56,6 +80,17 @@ public class DispatcherFilter implements Filter {
 
     public void init(FilterConfig config) throws ServletException {
 
+    }
+
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
     }
 
 }
