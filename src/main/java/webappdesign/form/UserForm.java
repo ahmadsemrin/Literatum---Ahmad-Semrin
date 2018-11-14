@@ -5,16 +5,6 @@ public class UserForm {
     private String password;
     private String role;
 
-    public UserForm() {
-
-    }
-
-    public UserForm(String email, String password, String role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
     public String getEmail() {
         return email;
     }

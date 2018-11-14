@@ -125,7 +125,12 @@ public class UserDAO implements IUserDAO {
         String password = getPasswordFromColumn(resultSet);
         String role = getRoleFromColumn(resultSet);
 
-        return new User(email, password, role);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole(role);
+
+        return user;
     }
 
     private String getEmailFromColumn(ResultSet resultSet) throws SQLException {

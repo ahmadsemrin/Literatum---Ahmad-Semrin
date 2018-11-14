@@ -1,19 +1,11 @@
 package webappdesign.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String email;
     private String password;
     private String role;
-
-    public User() {
-
-    }
-
-    public User(String email, String password, String role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;

@@ -11,7 +11,7 @@
   <form method="post" action="uploaded" enctype="multipart/form-data">
     <button class="file-upload-btn" type="submit" onclick="$trigger( 'click' )">Upload File</button>
     <div class="image-upload-wrap">
-      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="zip/*" name="file" id="file" />
+      <input class="file-upload-input" type='file' onchange="readURL(this);" accept="application/zip" name="file" id="file" />
       <div class="drag-text">
         <h3>Drag and drop a file or select add File</h3>
       </div>
