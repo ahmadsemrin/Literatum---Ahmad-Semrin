@@ -1,4 +1,4 @@
-package webappdesign.model.data_access_object;
+package webappdesign.model.data_access_object.user;
 
 import webappdesign.model.User;
 

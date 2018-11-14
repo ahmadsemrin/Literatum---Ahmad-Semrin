@@ -1,10 +1,8 @@
 package webappdesign.action;
 
 import webappdesign.model.User;
-import webappdesign.model.data_access_object.IUserDAO;
-import webappdesign.model.data_access_object.UserDAO;
-
-import java.sql.*;
+import webappdesign.model.data_access_object.user.IUserDAO;
+import webappdesign.model.data_access_object.user.UserDAO;
 
 public class LoginAction {
     private static IUserDAO userDAO;
