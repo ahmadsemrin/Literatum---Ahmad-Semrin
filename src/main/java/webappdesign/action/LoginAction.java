@@ -10,8 +10,10 @@ public class LoginAction {
     public User login(User user) {
         userDAO = UserDAO.getInstance();
         User foundUser = userDAO.findByEmail(user.getEmail());
-        if (areUsersEqual(foundUser, user)) {
-            return foundUser;
+        if (foundUser != null) {
+            if (areUsersEqual(foundUser, user)) {
+                return foundUser;
+            }
         }
 
         return null;

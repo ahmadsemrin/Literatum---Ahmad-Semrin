@@ -29,7 +29,6 @@
 </head>
 <body>
 
-<form method="post">
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
@@ -57,15 +56,15 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <a class="login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
                             Login
-                        </a>
+                        </button>
                     </div>
                 </div>
 
                 <div class="text-center p-t-115">
-                    <span class="txt1" id="txt">
-
+                    <span class="txt1" id="txt" style="color: red">
+                        <%=(request.getAttribute("hiddenField") != null)?request.getAttribute("hiddenField"):""%>
                     </span>
                 </div>
 
@@ -82,7 +81,6 @@
         </div>
     </div>
 </div>
-</form>
 
 
 <div id="dropDownSelect1"></div>

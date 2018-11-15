@@ -11,6 +11,7 @@ import webappdesign.model.User;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.List;
@@ -24,115 +25,44 @@ public class DispatcherFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException,
             IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        String uri = request.getRequestURI();
-        /*
-         * uri is in this form: /contextName/resourceName,
-         * for example: /appdesign1/input-product.
-         * However, in the event of a default context, the
-         * context name is empty, and uri has this form
-         * /resourceName, e.g.: /input-product
-         */
-        int lastIndex = uri.lastIndexOf("/");
-        String action = uri.substring(lastIndex + 1);
-        // execute an action
-        String dispatchUrl = null;
-        if ("login".equals(action)) {
-            UserForm userForm = new UserForm();
-            userForm.setEmail(req.getParameter("email"));
-            System.out.println(userForm.getEmail());
-            userForm.setPassword(req.getParameter("password"));
-
-            User user = new User();
-            user.setEmail(userForm.getEmail());
-            user.setPassword(userForm.getPassword());
-
-            System.out.println(user.getEmail() + " " + user.getPassword());
-            HttpSession userSession = request.getSession();
-            userSession.setAttribute("user", user);
-
-            // no action class, just forward
-            dispatchUrl = "/jsp/login_page/login.jsp";
-        } else if ("loggedIn".equals(action)) {
-            HttpSession userSession = request.getSession();
-            User user = (User) userSession.getAttribute("user");
-
-            LoginAction loginAction = new LoginAction();
-            currentUser = loginAction.login(user);
-
-            if (currentUser != null) {
-                System.out.println(currentUser.getRole());
-            } else {
-                System.out.println("No such user.");
-            }
-            dispatchUrl = "/jsp/wat_page/wat.jsp";
-        }
-
-        if (dispatchUrl != null) {
-            RequestDispatcher rd =
-                    req.getRequestDispatcher(dispatchUrl);
-            rd.forward(req, resp);
-        } else {
-            // let static contents pass
-            chain.doFilter(req, resp);
-        }
-
-
-        //forwardToPage(req, resp, chain);
-
-            //if ("login".equals(action)) {
-                /*UserForm userForm = new UserForm();
-                userForm.setEmail(request.getParameter("email"));
-                userForm.setPassword(request.getParameter("password"));
-
-                User newUser = new User();
-                newUser.setEmail(userForm.getEmail());
-                newUser.setPassword(userForm.getPassword());
-
-                LoginAction loginAction = new LoginAction();
-                currentUser = loginAction.login(newUser);
-
-                if (currentUser != null) {
-                    System.out.println(currentUser.getRole());
-                } else {
-                    System.out.println("No such user.");
-                }*/
+        forwardToPage(req, resp, chain);
     }
 
     public void init(FilterConfig config) throws ServletException {
 
     }
 
-    /*private void forwardToPage(ServletRequest req, ServletResponse resp, FilterChain chain)
+    private void forwardToPage(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
+
         String uri = request.getRequestURI();
         int lastIndex = uri.lastIndexOf("/");
         String pageURI = uri.substring(lastIndex + 1);
 
         String dispatchUrl = null;
         if ("login".equals(pageURI)) {
+            dispatchUrl = "/jsp/login_page/login.jsp";
+        } else if ("loggedIn".equals(pageURI)) {
             UserForm userForm = new UserForm();
             userForm.setEmail(request.getParameter("email"));
-            System.out.println(userForm.getEmail());
             userForm.setPassword(request.getParameter("password"));
 
-            newUser = new User();
+            User newUser = new User();
             newUser.setEmail(userForm.getEmail());
             newUser.setPassword(userForm.getPassword());
 
             LoginAction loginAction = new LoginAction();
             currentUser = loginAction.login(newUser);
 
-            dispatchUrl = "/jsp/login_page/login.jsp";
-        } else if ("loggedIn".equals(pageURI)) {
             if (currentUser != null) {
-                System.out.println(currentUser.getRole());
+                dispatchUrl = "/jsp/wat_page/wat.jsp";
             } else {
-                System.out.println("No such user.");
-            }
+                req.setAttribute("hiddenField", "Make sure you inserted the right email and password.");
 
-            dispatchUrl = "/jsp/wat_page/wat.jsp";
+                dispatchUrl = "/jsp/login_page/login.jsp";
+            }
         } else if ("admin".equals(pageURI)) {
             dispatchUrl = "/jsp/wat_page/wat.jsp";
         } else if ("sign-up".equals(pageURI)) {
@@ -159,6 +89,6 @@ public class DispatcherFilter implements Filter {
         } else {
             chain.doFilter(req, resp);
         }
-    }*/
+    }
 
 }
