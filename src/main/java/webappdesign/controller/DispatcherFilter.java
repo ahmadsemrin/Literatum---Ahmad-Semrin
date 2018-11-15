@@ -57,7 +57,13 @@ public class DispatcherFilter implements Filter {
             currentUser = loginAction.login(newUser);
 
             if (currentUser != null) {
-                dispatchUrl = "/jsp/wat_page/wat.jsp";
+                if (currentUser.getRole().equals("admin")) {
+                    dispatchUrl = "/jsp/wat_page/wat.jsp";
+                } else if (currentUser.getRole().equals("super")) {
+                    dispatchUrl = "/jsp/wat_page/wat.jsp";
+                } else if (currentUser.getRole().equals("basic")) {
+                    dispatchUrl = "/jsp/upload_page/upload.jsp";
+                }
             } else {
                 req.setAttribute("hiddenField", "Make sure you inserted the right email and password.");
 
@@ -70,8 +76,6 @@ public class DispatcherFilter implements Filter {
         } else if ("upload".equals(pageURI)) {
             dispatchUrl = "/jsp/upload_file_page/upload.jsp";
         } else if ("uploaded".equals(pageURI)) {
-            dispatchUrl = "/jsp/upload_file_page/uploaded.jsp";
-
             ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
             try {
                 List<FileItem> multiFiles = servletFileUpload.parseRequest(request);
@@ -81,6 +85,8 @@ public class DispatcherFilter implements Filter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            dispatchUrl = "/jsp/upload_file_page/uploaded.jsp";
         }
 
         if (dispatchUrl != null) {

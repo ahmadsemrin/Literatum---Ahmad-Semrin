@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Material design sign up form</title>
+  <title>Register to Atypon</title>
       <link rel="stylesheet" href="jsp/sign_up_page/css/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <input type="text" name="email" placeholder="E-mail" />
     <input type="password" name="password" placeholder="Password" />
     <input type="password" name="password2" placeholder="Retype password" />
-    <a href="/upload"><input type="submit" name="signup_submit" value="Sign me up" /></a>
+    <a href="upload"><input type="submit" name="signup_submit" value="Sign me up" /></a>
   </div>
   <div class="right">
     <span class="loginwith">Sign in with<br />social network</span>
