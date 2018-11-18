@@ -62,7 +62,7 @@ public class DispatcherFilter implements Filter {
                 } else if (currentUser.getRole().equals("super")) {
                     dispatchUrl = "/jsp/wat_page/wat.jsp";
                 } else if (currentUser.getRole().equals("basic")) {
-                    dispatchUrl = "/jsp/upload_page/upload.jsp";
+                    dispatchUrl = "/jsp/upload_file_page/upload.jsp";
                 }
             } else {
                 req.setAttribute("hiddenField", "Make sure you inserted the right email and password.");
@@ -70,6 +70,13 @@ public class DispatcherFilter implements Filter {
                 dispatchUrl = "/jsp/login_page/login.jsp";
             }
         } else if ("admin".equals(pageURI)) {
+            /*if (currentUser == null) {
+                req.setAttribute("hiddenField", "You must login first.");
+
+                dispatchUrl = "/jsp/login_page/login.jsp";
+            } else {
+                dispatchUrl = "/jsp/wat_page/wat.jsp";
+            }*/
             dispatchUrl = "/jsp/wat_page/wat.jsp";
         } else if ("sign-up".equals(pageURI)) {
             dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
