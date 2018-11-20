@@ -4,6 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import webappdesign.action.LoginAction;
+import webappdesign.action.SignUpAction;
 import webappdesign.action.UploadFileAction;
 import webappdesign.form.UserForm;
 import webappdesign.model.User;
@@ -65,21 +66,42 @@ public class DispatcherFilter implements Filter {
                     dispatchUrl = "/jsp/upload_file_page/upload.jsp";
                 }
             } else {
-                req.setAttribute("hiddenField", "Make sure you inserted the right email and password.");
+                req.setAttribute("hiddenFieldLogin", "Make sure you inserted the right email and password.");
 
                 dispatchUrl = "/jsp/login_page/login.jsp";
             }
         } else if ("admin".equals(pageURI)) {
             /*if (currentUser == null) {
-                req.setAttribute("hiddenField", "You must login first.");
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
 
                 dispatchUrl = "/jsp/login_page/login.jsp";
             } else {
                 dispatchUrl = "/jsp/wat_page/wat.jsp";
             }*/
+
             dispatchUrl = "/jsp/wat_page/wat.jsp";
         } else if ("sign-up".equals(pageURI)) {
             dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
+        } else if ("signed".equals(pageURI)) {
+            UserForm userForm = new UserForm();
+            userForm.setEmail(request.getParameter("email"));
+            userForm.setPassword(request.getParameter("password"));
+
+            if (req.getParameter("password2").equals(userForm.getPassword())) {
+                User newUser = new User();
+                newUser.setEmail(userForm.getEmail());
+                newUser.setPassword(userForm.getPassword());
+                newUser.setRole("basic");
+
+                SignUpAction signUpAction = new SignUpAction();
+                signUpAction.signUp(newUser);
+
+                dispatchUrl = "/jsp/upload_file_page/upload.jsp";
+            } else {
+                req.setAttribute("hiddenFieldSignUp", "Passwords are not the same.");
+
+                dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
+            }
         } else if ("upload".equals(pageURI)) {
             dispatchUrl = "/jsp/upload_file_page/upload.jsp";
         } else if ("uploaded".equals(pageURI)) {

@@ -64,7 +64,7 @@
 
                 <div class="text-center p-t-115">
                     <span class="txt1" id="txt" style="color: red">
-                        <%=(request.getAttribute("hiddenField") != null)?request.getAttribute("hiddenField"):""%>
+                        <%=(request.getAttribute("hiddenFieldLogin") != null)?request.getAttribute("hiddenFieldLogin"):""%>
                     </span>
                 </div>
 
@@ -73,7 +73,7 @@
 							Don&apos;t have an account?
 						</span>
 
-                    <a class="txt2" href="/sign-up">
+                    <a class="txt2" href="sign-up">
                         Sign Up
                     </a>
                 </div>

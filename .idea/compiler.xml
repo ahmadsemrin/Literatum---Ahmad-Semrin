@@ -6,8 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Literatum - AhmadSemrin" />
-        <module name="Literatum---Ahmad-Semrin" />
+        <module name="Literatum - Ahmad Semrin" />
       </profile>
     </annotationProcessing>
   </component>
