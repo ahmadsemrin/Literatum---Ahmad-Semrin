@@ -13,7 +13,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.List;
 
@@ -71,15 +70,13 @@ public class DispatcherFilter implements Filter {
                 dispatchUrl = "/jsp/login_page/login.jsp";
             }
         } else if ("admin".equals(pageURI)) {
-            /*if (currentUser == null) {
+            if (currentUser == null) {
                 req.setAttribute("hiddenFieldLogin", "You must login first.");
 
                 dispatchUrl = "/jsp/login_page/login.jsp";
             } else {
                 dispatchUrl = "/jsp/wat_page/wat.jsp";
-            }*/
-
-            dispatchUrl = "/jsp/wat_page/wat.jsp";
+            }
         } else if ("sign-up".equals(pageURI)) {
             dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
         } else if ("signed".equals(pageURI)) {
