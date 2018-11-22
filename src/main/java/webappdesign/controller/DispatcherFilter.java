@@ -18,7 +18,7 @@ import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
 public class DispatcherFilter implements Filter {
-    User currentUser;
+    private User currentUser;
 
     public void destroy() {
     }

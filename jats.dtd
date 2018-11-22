@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE article [
-        <!ELEMENT article (front|body)>
+<!ELEMENT article (front|body)*>
         <!ATTLIST article
                 article-type CDATA #REQUIRED
                 dtd-version CDATA #REQUIRED
@@ -67,4 +64,3 @@
                 id CDATA #REQUIRED
                 xlink:href CDATA #REQUIRED>
         <!ELEMENT p (#PCDATA)>
-        ]>

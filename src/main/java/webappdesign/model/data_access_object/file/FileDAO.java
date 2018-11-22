@@ -1,22 +1,23 @@
-package webappdesign.model.data_access_object.user;
+package webappdesign.model.data_access_object.file;
 
+import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
 
 import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 
-public class UserDAO implements IUserDAO {
-    private List<User> users;
+public class FileDAO implements IFileDAO {
+    private List<UploadedFile> fileList;
 
     private Connection connection;
     private Statement statement;
 
-    private static IUserDAO _instance;
+    private static IFileDAO _instance;
     private static final Object MUTEX = new Object();
 
-    private UserDAO() {
-        prepareUsers();
+    private FileDAO() {
+        prepareFiles();
 
         establishConnectionWithDB();
 
@@ -24,11 +25,11 @@ public class UserDAO implements IUserDAO {
 
         createTable();
 
-        getAllUsersFromDB();
+        getAllFilesFromDB();
     }
 
-    private void prepareUsers() {
-        users = new ArrayList<>();
+    private void prepareFiles() {
+        fileList = new ArrayList<>();
     }
 
     private void establishConnectionWithDB() {
@@ -74,29 +75,31 @@ public class UserDAO implements IUserDAO {
     }
 
     private void createTable() {
-        String sqlQuery = "CREATE TABLE IF NOT EXISTS Literatum.User (" +
-                "email VARCHAR(50) PRIMARY KEY," +
-                "password VARCHAR(50) NOT NULL," +
-                "role CHAR(5) NOT NULL)";
+        String sqlQuery = "CREATE TABLE IF NOT EXISTS Literatum.File (" +
+                "name VARCHAR(25) NOT NULL," +
+                "email VARCHAR(50) NOT NULL," +
+                "file VARCHAR(100) NOT NULL," +
+                "date VARCHAR(50) NOT NULL," +
+                "status VARCHAR(10) NOT NULL)";
         try {
             executeSQLQuery(sqlQuery);
 
-            System.out.println("Table \"User\" has created successfully.");
+            System.out.println("Table \"File\" has created successfully.");
         } catch (SQLException ex) {
-            System.out.println("Table \"User\" is already created.");
+            System.out.println("Table \"File\" is already created.");
         }
     }
 
-    private void getAllUsersFromDB() {
-        String sqlQuery = "SELECT * FROM Literatum.User";
+    private void getAllFilesFromDB() {
+        String sqlQuery = "SELECT * FROM Literatum.File";
 
         ResultSet resultSet = null;
         try {
             resultSet = getResultSetFormSQLQuery(sqlQuery);
 
-            addUsersFromResultSet(resultSet);
+            addFilesFromResultSet(resultSet);
         } catch (SQLException ex) {
-            System.out.println("Can't get the users.");
+            System.out.println("Can't get the files.");
         } finally {
             closeResultSet(resultSet);
         }
@@ -108,11 +111,11 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-    private void addUsersFromResultSet(ResultSet resultSet) throws SQLException {
+    private void addFilesFromResultSet(ResultSet resultSet) throws SQLException {
         while (isThereMoreColumns(resultSet)) {
-            User user = getUserFromResultSet(resultSet);
+            UploadedFile file = getFileFromResultSet(resultSet);
 
-            addUserToUsersList(user);
+            addFileToFileList(file);
         }
     }
 
@@ -120,33 +123,45 @@ public class UserDAO implements IUserDAO {
         return resultSet.next();
     }
 
-    private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
+    private UploadedFile getFileFromResultSet(ResultSet resultSet) throws SQLException {
+        String name = getNameFromColumn(resultSet);
         String email = getEmailFromColumn(resultSet);
-        String password = getPasswordFromColumn(resultSet);
-        String role = getRoleFromColumn(resultSet);
+        String fileName = getFileNameFromResultSet(resultSet);
+        String date = getDateFromColumn(resultSet);
+        String status = getStatusFromColumn(resultSet);
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setRole(role);
+        UploadedFile file = new UploadedFile();
+        file.setName(name);
+        file.setEmail(email);
+        file.setFile(fileName);
+        file.setDate(date);
+        file.setStatus(status);
 
-        return user;
+        return file;
+    }
+
+    private String getNameFromColumn(ResultSet resultSet) throws SQLException {
+        return resultSet.getString("name");
+    }
+
+    private String getFileNameFromResultSet(ResultSet resultSet) throws SQLException {
+        return resultSet.getString("file");
     }
 
     private String getEmailFromColumn(ResultSet resultSet) throws SQLException {
         return resultSet.getString("email");
     }
 
-    private String getPasswordFromColumn(ResultSet resultSet) throws SQLException {
-        return resultSet.getString("password");
+    private String getDateFromColumn(ResultSet resultSet) throws SQLException {
+        return resultSet.getString("date");
     }
 
-    private String getRoleFromColumn(ResultSet resultSet) throws SQLException {
-        return resultSet.getString("role");
+    private String getStatusFromColumn(ResultSet resultSet) throws SQLException {
+        return resultSet.getString("status");
     }
 
-    private void addUserToUsersList(User user) {
-        users.add(user);
+    private void addFileToFileList(UploadedFile file) {
+        fileList.add(file);
     }
 
     private void closeResultSet(ResultSet resultSet) {
@@ -163,7 +178,7 @@ public class UserDAO implements IUserDAO {
         return resultSet != null;
     }
 
-    public static IUserDAO getInstance() {
+    public static IFileDAO getInstance() {
         createInstance();
 
         return _instance;
@@ -173,7 +188,7 @@ public class UserDAO implements IUserDAO {
         if (isInstanceNull()) {
             synchronized (MUTEX) {
                 if (isInstanceNull()) {
-                    _instance = new UserDAO();
+                    _instance = new FileDAO();
                 }
             }
         }
@@ -184,54 +199,41 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public List<User> findAll() {
-        return users;
+    public List<UploadedFile> findAll() {
+        return fileList;
     }
 
     @Override
-    public User findByEmail(String email) {
-        return searchForUserFromEmail(email);
+    public void insertFile(UploadedFile file) {
+        String sqlQuery = "INSERT INTO Literatum.File VALUES (?, ?, ?, ?, ?)";
+
+        prepareStatementForSQLQuery(sqlQuery, file);
+
+        addFileToFileList(file);
     }
 
-    private User searchForUserFromEmail(String email) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void insertUser(User user) {
-        String sqlQuery = "INSERT INTO Literatum.User VALUES (?, ?, ?)";
-
-        prepareStatementForSQLQuery(sqlQuery, user);
-
-        addUserToUsersList(user);
-    }
-
-    private void prepareStatementForSQLQuery(String sqlQuery, User user) {
+    private void prepareStatementForSQLQuery(String sqlQuery, UploadedFile file) {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getRole());
+            preparedStatement.setString(1, file.getName());
+            preparedStatement.setString(2, file.getEmail());
+            preparedStatement.setString(3, file.getFile());
+            preparedStatement.setString(4, file.getDate());
+            preparedStatement.setString(5, file.getStatus());
 
             synchronized (MUTEX) {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException ex) {
-            displayFailMessageToUser();
+            ex.printStackTrace();
         } finally {
             closePreparedStatement(preparedStatement);
         }
     }
 
     private void displayFailMessageToUser() {
-        JOptionPane.showMessageDialog(null, "Email that you are trying to insert is already "
+        JOptionPane.showMessageDialog(null, "File that you are trying to insert is already "
                 + "existed. Please insert another one.");
     }
 
@@ -247,5 +249,18 @@ public class UserDAO implements IUserDAO {
 
     private boolean isPreparedStatementNotNull(PreparedStatement preparedStatement) {
         return preparedStatement != null;
+    }
+
+    @Override
+    public void deleteFile(UploadedFile file) {
+        String sqlQuery = "DELETE FROM Literatum.File WHERE name = ? AND email = ? AND file = ? AND date = ? AND status = ?";
+
+        prepareStatementForSQLQuery(sqlQuery, file);
+
+        deleteFileFromFileList(file);
+    }
+
+    private void deleteFileFromFileList(UploadedFile file) {
+        fileList.remove(file);
     }
 }
