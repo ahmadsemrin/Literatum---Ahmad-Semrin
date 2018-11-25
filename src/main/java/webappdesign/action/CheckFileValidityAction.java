@@ -4,6 +4,7 @@ import org.xml.sax.*;
 
 import javax.xml.parsers.*;
 import java.io.IOException;
+import java.io.StringReader;
 
 public class CheckFileValidityAction {
     public static boolean validateWithDTDUsingDOM(String xml) throws ParserConfigurationException, IOException {
@@ -13,6 +14,8 @@ public class CheckFileValidityAction {
             factory.setNamespaceAware(true);
 
             DocumentBuilder builder = factory.newDocumentBuilder();
+
+            System.out.println(xml + " HIIIII");
 
             builder.setErrorHandler(new ErrorHandler() {
                 public void warning(SAXParseException exception) throws SAXException {
@@ -32,7 +35,7 @@ public class CheckFileValidityAction {
                 }
             });
 
-            builder.parse(new InputSource(xml));
+            builder.parse(new InputSource(new StringReader(xml)));
 
             return true;
         } catch (ParserConfigurationException | IOException e) {

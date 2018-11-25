@@ -46,20 +46,40 @@ public class UnzipFileAction {
                 fos.close();
 
                 ze = zis.getNextEntry();
+            }
 
-                /*String extension;
-                int i = newFile.getName().lastIndexOf('.');
+            zis.closeEntry();
+            zis.close();
+
+            File newFile = new File(OUTPUT_FOLDER);
+            result = readFilesFromFolder(newFile);
+
+            System.out.println("Done");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private static boolean readFilesFromFolder(File folder) throws IOException {
+        boolean result = false;
+        for (File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                readFilesFromFolder(fileEntry);
+            } else if (fileEntry.isFile()){
+                String extension;
+                int i = fileEntry.getName().lastIndexOf('.');
                 if (i > 0) {
-                    extension = newFile.getName().substring(i+1);
+                    extension = fileEntry.getName().substring(i + 1);
 
                     if (extension.equals("xml")) {
-                        System.out.println(newFile.getName());
-
-                        FileReader fileReader = new FileReader(newFile.getAbsoluteFile());
+                        FileReader fileReader = new FileReader(fileEntry.getAbsoluteFile());
                         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
                         List<String> lines = new ArrayList<>();
-                        String line = null;
+                        String line;
                         while ((line = bufferedReader.readLine()) != null) {
                             if (line.contains("JATS-archivearticle1.dtd")) {
                                 line = line.replace("JATS-archivearticle1.dtd", "jats.dtd");
@@ -68,71 +88,27 @@ public class UnzipFileAction {
                             lines.add(line);
                         }
 
-                        FileWriter fileWriter = new FileWriter(newFile.getAbsoluteFile());
+                        FileWriter fileWriter = new FileWriter(fileEntry.getAbsoluteFile());
                         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                         bufferedWriter.write(lines.toString());
 
                         try {
-                            if (CheckFileValidityAction.validateWithDTDUsingDOM(newFile.getAbsolutePath())) {
+                            if (CheckFileValidityAction.validateWithDTDUsingDOM(fileEntry.getAbsolutePath())) {
                                 result = true;
                             }
-                        } catch (ParserConfigurationException e) {
+                        } catch (ParserConfigurationException | IOException e) {
                             e.printStackTrace();
-                        }
-                    }
-                }*/
-            }
-
-            zis.closeEntry();
-            zis.close();
-
-            File newFile = new File(OUTPUT_FOLDER);
-            for (File file : newFile.listFiles()) {
-                if (file.isFile()) {
-                    String extension;
-                    int i = newFile.getName().lastIndexOf('.');
-                    if (i > 0) {
-                        extension = newFile.getName().substring(i + 1);
-
-                        if (extension.equals("xml")) {
-                            System.out.println(newFile.getName());
-
-                            FileReader fileReader = new FileReader(newFile.getAbsoluteFile());
-                            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-                            List<String> lines = new ArrayList<>();
-                            String line = null;
-                            while ((line = bufferedReader.readLine()) != null) {
-                                if (line.contains("JATS-archivearticle1.dtd")) {
-                                    line = line.replace("JATS-archivearticle1.dtd", "jats.dtd");
-                                }
-
-                                lines.add(line);
-                            }
-
-                            FileWriter fileWriter = new FileWriter(newFile.getAbsoluteFile());
-                            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                            bufferedWriter.write(lines.toString());
-
+                        } finally {
                             try {
-                                if (CheckFileValidityAction.validateWithDTDUsingDOM(newFile.getAbsolutePath())) {
-                                    result = true;
-                                }
-                            } catch (ParserConfigurationException e) {
-                                e.printStackTrace();
-                            } finally {
                                 bufferedReader.close();
                                 bufferedWriter.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
                 }
             }
-
-            System.out.println("Done");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
 
         return result;
