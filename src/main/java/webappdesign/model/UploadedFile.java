@@ -1,8 +1,8 @@
 package webappdesign.model;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class UploadedFile {
+public class UploadedFile implements Serializable {
     private String name;
     private String email;
     private String file;

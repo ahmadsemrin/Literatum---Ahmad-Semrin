@@ -113,6 +113,8 @@ public class DispatcherFilter implements Filter {
             }
 
             dispatchUrl = "/jsp/upload_file_page/uploaded.jsp";
+        } else if ("table".equals(pageURI)) {
+            dispatchUrl = "/jsp/wat_page/table.jsp";
         }
 
         if (dispatchUrl != null) {

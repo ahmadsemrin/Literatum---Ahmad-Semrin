@@ -35,12 +35,14 @@ public class CheckFileValidityAction {
                 }
             });
 
-            builder.parse(new InputSource(new StringReader(xml)));
+            builder.parse(new InputSource(xml));
 
             return true;
         } catch (ParserConfigurationException | IOException e) {
             throw e;
         } catch (SAXException e) {
+            e.printStackTrace();
+
             return false;
         }
     }

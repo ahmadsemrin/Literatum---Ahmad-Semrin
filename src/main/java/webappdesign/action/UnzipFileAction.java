@@ -8,6 +8,7 @@ import java.util.zip.*;
 public class UnzipFileAction {
     private static final String OUTPUT_FOLDER = "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
             "AhmadSemrin/Uploaded Files/" + new Date().getTime();
+    private static List<File> files = new ArrayList<>();
 
     public static boolean unzipFile(String zipFile) {
         boolean result = false;
@@ -52,10 +53,11 @@ public class UnzipFileAction {
             zis.close();
 
             File newFile = new File(OUTPUT_FOLDER);
-            result = readFilesFromFolder(newFile);
+            readFilesFromFolder(newFile);
+
+            result = findAndEdit(files);
 
             System.out.println("Done");
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -63,54 +65,65 @@ public class UnzipFileAction {
         return result;
     }
 
-    private static boolean readFilesFromFolder(File folder) throws IOException {
-        boolean result = false;
-        for (File fileEntry : folder.listFiles()) {
-            if (fileEntry.isDirectory()) {
-                readFilesFromFolder(fileEntry);
-            } else if (fileEntry.isFile()){
-                String extension;
-                int i = fileEntry.getName().lastIndexOf('.');
-                if (i > 0) {
-                    extension = fileEntry.getName().substring(i + 1);
+    private static void readFilesFromFolder(File folder) {
+        if(folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            for(File currFile : files) {
+                readFilesFromFolder(currFile);
+            }
+        } else {
+            files.add(folder);
+        }
+    }
 
-                    if (extension.equals("xml")) {
-                        FileReader fileReader = new FileReader(fileEntry.getAbsoluteFile());
-                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+    private static boolean findAndEdit(List<File> files) throws IOException {
+        for (File fileEntry : files) {
+            String extension;
+            int i = fileEntry.getName().lastIndexOf('.');
+            if (i > 0) {
+                extension = fileEntry.getName().substring(i + 1);
 
-                        List<String> lines = new ArrayList<>();
-                        String line;
-                        while ((line = bufferedReader.readLine()) != null) {
-                            if (line.contains("JATS-archivearticle1.dtd")) {
-                                line = line.replace("JATS-archivearticle1.dtd", "jats.dtd");
-                            }
+                if (extension.equals("xml")) {
+                    FileReader fileReader = new FileReader(fileEntry.getAbsoluteFile());
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-                            lines.add(line);
+                    List<String> lines = new ArrayList<>();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        if (line.contains("JATS-archivearticle1.dtd")) {
+                            line = line.replace("JATS-archivearticle1.dtd",
+                                    "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
+                                            "AhmadSemrin/jats.dtd");
                         }
 
-                        FileWriter fileWriter = new FileWriter(fileEntry.getAbsoluteFile());
-                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                        bufferedWriter.write(lines.toString());
+                        lines.add(line);
+                    }
 
-                        try {
-                            if (CheckFileValidityAction.validateWithDTDUsingDOM(fileEntry.getAbsolutePath())) {
-                                result = true;
-                            }
-                        } catch (ParserConfigurationException | IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                bufferedReader.close();
-                                bufferedWriter.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                    bufferedReader.close();
+                    fileReader.close();
+
+                    FileWriter fileWriter = new FileWriter(fileEntry.getAbsoluteFile());
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                    for (String ln : lines) {
+                        bufferedWriter.write(ln);
+                    }
+
+                    bufferedWriter.close();
+                    fileWriter.close();
+
+                    try {
+                        if (fileEntry.getName().equals("192536211700700101.xml") &&
+                                CheckFileValidityAction.validateWithDTDUsingDOM(fileEntry.getAbsolutePath())) {
+                            System.out.println("YES");
+                            return true;
                         }
+                    } catch (ParserConfigurationException | IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
         }
 
-        return result;
+        return false;
     }
 }
