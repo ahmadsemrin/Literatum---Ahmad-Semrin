@@ -58,8 +58,6 @@ public class UnzipFileAction {
             readFilesFromFolder(newFile);
 
             result = findAndEdit(files);
-
-            System.out.println("Done");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

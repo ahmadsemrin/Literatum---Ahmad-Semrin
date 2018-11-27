@@ -134,7 +134,7 @@
                                 <i class="fas fa-copy"></i>Upload a File</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/table.html">
+                            <a href="table">
                                 <i class="fas fa-table"></i>Uploaded Files</a>
                         </li>
                     </ul>
@@ -231,7 +231,7 @@
                                 <i class="fas fa-copy"></i>Upload a File</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/table.html">
+                            <a href="table">
                                 <i class="fas fa-table"></i>Uploaded Files</a>
                         </li>
                     </ul>

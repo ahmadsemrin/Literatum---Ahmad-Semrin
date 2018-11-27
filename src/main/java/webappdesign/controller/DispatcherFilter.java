@@ -7,7 +7,10 @@ import webappdesign.action.LoginAction;
 import webappdesign.action.SignUpAction;
 import webappdesign.action.UploadFileAction;
 import webappdesign.form.UserForm;
+import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
+import webappdesign.model.data_access_object.file.FileDAO;
+import webappdesign.model.data_access_object.file.IFileDAO;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -19,6 +22,8 @@ import java.util.List;
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
 public class DispatcherFilter implements Filter {
     private User currentUser;
+    private List<UploadedFile> uploadedFiles;
+    private IFileDAO fileDAO;
 
     public void destroy() {
     }
@@ -112,8 +117,18 @@ public class DispatcherFilter implements Filter {
                 e.printStackTrace();
             }
 
-            dispatchUrl = "/jsp/upload_file_page/uploaded.jsp";
+            fileDAO = FileDAO.getInstance();
+            uploadedFiles = fileDAO.findAll();
+
+            request.setAttribute("uploadedFiles", uploadedFiles);
+
+            dispatchUrl = "/jsp/wat_page/table.jsp";
         } else if ("table".equals(pageURI)) {
+            fileDAO = FileDAO.getInstance();
+            uploadedFiles = fileDAO.findAll();
+
+            request.setAttribute("uploadedFiles", uploadedFiles);
+
             dispatchUrl = "/jsp/wat_page/table.jsp";
         }
 
