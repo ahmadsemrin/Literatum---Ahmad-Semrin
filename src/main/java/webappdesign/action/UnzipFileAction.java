@@ -3,6 +3,8 @@ package webappdesign.action;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.*;
 
 public class UnzipFileAction {
@@ -112,9 +114,12 @@ public class UnzipFileAction {
                     fileWriter.close();
 
                     try {
-                        if (fileEntry.getName().equals("192536211700700101.xml") &&
+                        String regexStr="^(\\d)+(\\.xml)$";
+                        Pattern pattern = Pattern.compile(regexStr);
+                        Matcher matcher = pattern.matcher(fileEntry.getName());
+                        if (matcher.matches() &&
                                 CheckFileValidityAction.validateWithDTDUsingDOM(fileEntry.getAbsolutePath())) {
-                            System.out.println("YES");
+
                             return true;
                         }
                     } catch (ParserConfigurationException | IOException e) {

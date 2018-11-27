@@ -18,7 +18,7 @@
         <!ELEMENT publisher (publisher-name|publisher-loc)*>
         <!ELEMENT publisher-name (#PCDATA)>
         <!ELEMENT publisher-loc (#PCDATA)>
-        <!ELEMENT article-meta (article-id|article-categories|title-group|contrib-group|pub-date|volume|issue|issue-title|fpage|lpage|permissions|self-uri)*>
+        <!ELEMENT article-meta (article-id|article-categories|title-group|contrib-group|aff|pub-date|volume|issue|issue-title|fpage|lpage|permissions|self-uri)*>
         <!ELEMENT article-id (#PCDATA)>
         <!ATTLIST article-id
                 pub-id-type CDATA #REQUIRED>
@@ -30,7 +30,7 @@
         <!ELEMENT title-group (article-title)*>
         <!ELEMENT article-title (#PCDATA)>
         <!ELEMENT contrib-group (contrib)*>
-        <!ELEMENT contrib (string-name|x|degrees)*>
+        <!ELEMENT contrib (string-name|x|degrees|xref)*>
         <!ATTLIST contrib
                 contrib-type CDATA #REQUIRED>
         <!ELEMENT string-name (given-names|surname)*>
@@ -38,6 +38,13 @@
         <!ELEMENT surname (#PCDATA)>
         <!ELEMENT x (#PCDATA)>
         <!ELEMENT degrees (#PCDATA)>
+        <!ELEMENT xref (#PCDATA)>
+        <!ATTLIST xref
+                ref-type CDATA #IMPLIED
+                rid CDATA #IMPLIED>
+        <!ELEMENT aff (#PCDATA)>
+        <!ATTLIST aff
+                id CDATA #IMPLIED>
         <!ELEMENT pub-date (month|year)*>
         <!ATTLIST pub-date
                 pub-type CDATA #REQUIRED>
@@ -58,9 +65,10 @@
         <!ATTLIST self-uri
                 content-type CDATA #REQUIRED
                 xlink:href CDATA #REQUIRED>
-        <!ELEMENT body (graphic|p)*>
+        <!ELEMENT body (graphic|disp-quote|p)*>
         <!ELEMENT graphic (#PCDATA)>
         <!ATTLIST graphic
                 id CDATA #REQUIRED
                 xlink:href CDATA #REQUIRED>
+        <!ELEMENT disp-quote (p)*>
         <!ELEMENT p (#PCDATA)>

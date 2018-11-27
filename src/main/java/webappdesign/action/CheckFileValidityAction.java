@@ -15,8 +15,6 @@ public class CheckFileValidityAction {
 
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            System.out.println(xml + " HIIIII");
-
             builder.setErrorHandler(new ErrorHandler() {
                 public void warning(SAXParseException exception) throws SAXException {
                     System.out.println("WARNING: " + exception.getMessage());
