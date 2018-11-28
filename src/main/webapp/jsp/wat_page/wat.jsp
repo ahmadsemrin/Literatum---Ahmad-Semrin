@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,25 +14,25 @@
     <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
-    <link href="jsp/wat_page/css/font-face.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/css/font-face.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/font-awesome-4.7/css/font-awesome.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/font-awesome-5/css/fontawesome-all.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/mdi-font/css/material-design-iconic-font.min.css"/>" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="jsp/wat_page/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/bootstrap-4.1/bootstrap.min.css"/>" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
-    <link href="jsp/wat_page/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="jsp/wat_page/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/animsition/animsition.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/wow/animate.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/css-hamburgers/hamburgers.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/slick/slick.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/select2/select2.min.css"/>" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/vendor/perfect-scrollbar/perfect-scrollbar.css"/>" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="jsp/wat_page/css/theme.css" rel="stylesheet" media="all">
+    <link href="<c:url value="/jsp/wat_page/css/theme.css"/>" rel="stylesheet" media="all">
 
 </head>
 
@@ -43,7 +44,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="admin">
-                            <img src="jsp/wat_page/images/icon/logo.png" alt="CoolAdmin" />
+                            <img src="<c:url value="/jsp/wat_page/images/icon/logo.png"/>" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -64,22 +65,22 @@
                                     <a href="admin">Dashboard 1</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index2.html">Dashboard 2</a>
+                                    <a href="<c:url value="/jsp/wat_page/index2.html"/>">Dashboard 2</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index3.html">Dashboard 3</a>
+                                    <a href="<c:url value="/jsp/wat_page/index3.html"/>">Dashboard 3</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index4.html">Dashboard 4</a>
+                                    <a href="<c:url value="/jsp/wat_page/index4.html"/>">Dashboard 4</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/chart.html">
+                            <a href="<c:url value="/jsp/wat_page/chart.html"/>">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/form.html">
+                            <a href="<c:url value="/jsp/wat_page/form.html"/>">
                                 <i class="far fa-check-square"></i>Forms</a>
                         </li>
                         <li>
@@ -87,7 +88,7 @@
                                 <i class="fas fa-calendar-alt"></i>Calendar</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/map.html">
+                            <a href="<c:url value="/jsp/wat_page/map.html"/>">
                                 <i class="fas fa-map-marker-alt"></i>Maps</a>
                         </li>
                         <li class="has-sub">
@@ -95,37 +96,37 @@
                                 <i class="fas fa-desktop"></i>UI Elements</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
                                 <li>
-                                    <a href="jsp/wat_page/button.html">Button</a>
+                                    <a href="<c:url value="/jsp/wat_page/button.html"/>">Button</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/badge.html">Badges</a>
+                                    <a href="<c:url value="/jsp/wat_page/badge.html"/>">Badges</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/tab.html">Tabs</a>
+                                    <a href="<c:url value="/jsp/wat_page/tab.html"/>">Tabs</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/card.html">Cards</a>
+                                    <a href="<c:url value="/jsp/wat_page/card.html"/>">Cards</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/alert.html">Alerts</a>
+                                    <a href="<c:url value="/jsp/wat_page/alert.html"/>">Alerts</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/progress-bar.html">Progress Bars</a>
+                                    <a href="<c:url value="/jsp/wat_page/progress-bar.html"/>">Progress Bars</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/modal.html">Modals</a>
+                                    <a href="<c:url value="/jsp/wat_page/modal.html"/>">Modals</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/switch.html">Switchs</a>
+                                    <a href="<c:url value="/jsp/wat_page/switch.html"/>">Switchs</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/grid.html">Grids</a>
+                                    <a href="<c:url value="/jsp/wat_page/grid.html"/>">Grids</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/fontawesome.html">Fontawesome Icon</a>
+                                    <a href="<c:url value="/jsp/wat_page/fontawesome.html"/>">Fontawesome Icon</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/typo.html">Typography</a>
+                                    <a href="<c:url value="/jsp/wat_page/typo.html"/>">Typography</a>
                                 </li>
                             </ul>
                         </li>
@@ -146,8 +147,8 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
-                    <img src="jsp/wat_page/images/icon/logo.png" alt="Cool Admin" />
+                <a href="admin">
+                    <img src="<c:url value="/jsp/wat_page/images/icon/logo.png"/>" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -161,22 +162,22 @@
                                     <a href="admin">Dashboard 1</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index2.html">Dashboard 2</a>
+                                    <a href="<c:url value="/jsp/wat_page/index2.html"/>">Dashboard 2</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index3.html">Dashboard 3</a>
+                                    <a href="<c:url value="/jsp/wat_page/index3.html"/>">Dashboard 3</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/index4.html">Dashboard 4</a>
+                                    <a href="<c:url value="/jsp/wat_page/index4.html"/>">Dashboard 4</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/chart.html">
+                            <a href="<c:url value="/jsp/wat_page/chart.html"/>">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/form.html">
+                            <a href="<c:url value="/jsp/wat_page/form.html"/>">
                                 <i class="far fa-check-square"></i>Forms</a>
                         </li>
                         <li>
@@ -184,7 +185,7 @@
                                 <i class="fas fa-calendar-alt"></i>Calendar</a>
                         </li>
                         <li>
-                            <a href="jsp/wat_page/map.html">
+                            <a href="<c:url value="/jsp/wat_page/map.html"/>">
                                 <i class="fas fa-map-marker-alt"></i>Maps</a>
                         </li>
                         <li class="has-sub">
@@ -192,37 +193,37 @@
                                 <i class="fas fa-desktop"></i>UI Elements</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="jsp/wat_page/button.html">Button</a>
+                                    <a href="<c:url value="/jsp/wat_page/button.html"/>">Button</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/badge.html">Badges</a>
+                                    <a href="<c:url value="/jsp/wat_page/badge.html"/>">Badges</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/tab.html">Tabs</a>
+                                    <a href="<c:url value="/jsp/wat_page/tab.html"/>">Tabs</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/card.html">Cards</a>
+                                    <a href="<c:url value="/jsp/wat_page/card.html"/>">Cards</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/alert.html">Alerts</a>
+                                    <a href="<c:url value="/jsp/wat_page/alert.html"/>">Alerts</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/progress-bar.html">Progress Bars</a>
+                                    <a href="<c:url value="/jsp/wat_page/progress-bar.html"/>">Progress Bars</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/modal.html">Modals</a>
+                                    <a href="<c:url value="/jsp/wat_page/modal.html"/>">Modals</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/switch.html">Switchs</a>
+                                    <a href="<c:url value="/jsp/wat_page/switch.html"/>">Switchs</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/grid.html">Grids</a>
+                                    <a href="<c:url value="/jsp/wat_page/grid.html"/>">Grids</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/fontawesome.html">Fontawesome Icon</a>
+                                    <a href="<c:url value="/jsp/wat_page/fontawesome.html"/>">Fontawesome Icon</a>
                                 </li>
                                 <li>
-                                    <a href="jsp/wat_page/typo.html">Typography</a>
+                                    <a href="<c:url value="/jsp/wat_page/typo.html"/>">Typography</a>
                                 </li>
                             </ul>
                         </li>
@@ -264,7 +265,7 @@
                                             </div>
                                             <div class="mess__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="jsp/wat_page/images/icon/avatar-06.jpg" alt="Michelle Moreno" />
+                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-06.jpg"/>" alt="Michelle Moreno" />
                                                 </div>
                                                 <div class="content">
                                                     <h6>Michelle Moreno</h6>
@@ -274,7 +275,7 @@
                                             </div>
                                             <div class="mess__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="jsp/wat_page/images/icon/avatar-04.jpg" alt="Diane Myers" />
+                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-04.jpg"/>" alt="Diane Myers" />
                                                 </div>
                                                 <div class="content">
                                                     <h6>Diane Myers</h6>
@@ -296,7 +297,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="jsp/wat_page/images/icon/avatar-06.jpg" alt="Cynthia Harvey" />
+                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-06.jpg"/>" alt="Cynthia Harvey" />
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -305,7 +306,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="jsp/wat_page/images/icon/avatar-05.jpg" alt="Cynthia Harvey" />
+                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-05.jpg"/>" alt="Cynthia Harvey" />
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -314,7 +315,7 @@
                                             </div>
                                             <div class="email__item">
                                                 <div class="image img-cir img-40">
-                                                    <img src="jsp/wat_page/images/icon/avatar-04.jpg" alt="Cynthia Harvey" />
+                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-04.jpg"/>" alt="Cynthia Harvey" />
                                                 </div>
                                                 <div class="content">
                                                     <p>Meeting about new dashboard...</p>
@@ -369,7 +370,7 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="jsp/wat_page/images/icon/avatar-01.jpg" alt="Ahmad Semrin" />
+                                            <img src="<c:url value="/jsp/wat_page/images/icon/avatar-01.jpg"/>" alt="Ahmad Semrin" />
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">Ahmad Semrin</a>
@@ -378,7 +379,7 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="jsp/wat_page/images/icon/avatar-01.jpg" alt="Ahmad Semrin" />
+                                                        <img src="<c:url value="/jsp/wat_page/images/icon/avatar-01.jpg"/>" alt="Ahmad Semrin" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -791,7 +792,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-02.jpg" alt="John Smith">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-02.jpg"/>" alt="John Smith">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -809,7 +810,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap online">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-03.jpg" alt="Nicholas Martinez">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-03.jpg"/>" alt="Nicholas Martinez">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -827,7 +828,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap online">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-04.jpg" alt="Michelle Sims">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-04.jpg"/>" alt="Michelle Sims">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -845,7 +846,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-05.jpg" alt="Michelle Sims">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-05.jpg"/>" alt="Michelle Sims">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -863,7 +864,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap online">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-04.jpg" alt="Michelle Sims">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-04.jpg"/>" alt="Michelle Sims">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -881,7 +882,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap">
                                                                 <div class="avatar">
-                                                                    <img src="jsp/wat_page/images/icon/avatar-05.jpg" alt="Michelle Sims">
+                                                                    <img src="<c:url value="/jsp/wat_page/images/icon/avatar-05.jpg"/>" alt="Michelle Sims">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -904,7 +905,7 @@
                                                 <div class="au-chat-info">
                                                     <div class="avatar-wrap online">
                                                         <div class="avatar avatar--small">
-                                                            <img src="jsp/wat_page/images/icon/avatar-02.jpg" alt="John Smith">
+                                                            <img src="<c:url value="/jsp/wat_page/images/icon/avatar-02.jpg"/>" alt="John Smith">
                                                         </div>
                                                     </div>
                                                     <span class="nick">
@@ -917,7 +918,7 @@
                                                     <span class="mess-time">12 Min ago</span>
                                                     <div class="recei-mess__inner">
                                                         <div class="avatar avatar--tiny">
-                                                            <img src="jsp/wat_page/images/icon/avatar-02.jpg" alt="John Smith">
+                                                            <img src="<c:url value="/jsp/wat_page/images/icon/avatar-02.jpg"/>" alt="John Smith">
                                                         </div>
                                                         <div class="recei-mess-list">
                                                             <div class="recei-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
@@ -964,28 +965,28 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="jsp/wat_page/vendor/jquery-3.2.1.min.js"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/jquery-3.2.1.min.js"/>"></script>
     <!-- Bootstrap JS-->
-    <script src="jsp/wat_page/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="jsp/wat_page/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/bootstrap-4.1/popper.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/bootstrap-4.1/bootstrap.min.js"/>"></script>
     <!-- Vendor JS       -->
-    <script src="jsp/wat_page/vendor/slick/slick.min.js">
+    <script src="<c:url value="/jsp/wat_page/vendor/slick/slick.min.js"/>">
     </script>
-    <script src="jsp/wat_page/vendor/wow/wow.min.js"></script>
-    <script src="jsp/wat_page/vendor/animsition/animsition.min.js"></script>
-    <script src="jsp/wat_page/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="<c:url value="/jsp/wat_page/vendor/wow/wow.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/animsition/animsition.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"/>">
     </script>
-    <script src="jsp/wat_page/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="jsp/wat_page/vendor/counter-up/jquery.counterup.min.js">
+    <script src="<c:url value="/jsp/wat_page/vendor/counter-up/jquery.waypoints.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/counter-up/jquery.counterup.min.js"/>">
     </script>
-    <script src="jsp/wat_page/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="jsp/wat_page/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="jsp/wat_page/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="jsp/wat_page/vendor/select2/select2.min.js">
+    <script src="<c:url value="/jsp/wat_page/vendor/circle-progress/circle-progress.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/perfect-scrollbar/perfect-scrollbar.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/chartjs/Chart.bundle.min.js"/>"></script>
+    <script src="<c:url value="/jsp/wat_page/vendor/select2/select2.min.js"/>">
     </script>
 
     <!-- Main JS-->
-    <script src="jsp/wat_page/js/main.js"></script>
+    <script src="<c:url value="/jsp/wat_page/js/main.js"/>"></script>
 
 </body>
 
