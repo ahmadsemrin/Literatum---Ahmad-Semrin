@@ -1,9 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
   <title>File upload input</title>
-      <link rel="stylesheet" href="jsp/upload_file_page/css/style.css">
+      <link rel="stylesheet" href="<c:url value="/jsp/upload_file_page/css/style.css"/>">
 </head>
 <body>
   <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -23,6 +24,6 @@
     </div>
   </div>
 </div>
-    <script  src="jsp/upload_file_page/js/index.js"></script>
+    <script  src="<c:url value="/jsp/upload_file_page/js/index.js"/>"></script>
 </body>
 </html>
