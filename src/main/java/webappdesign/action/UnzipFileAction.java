@@ -9,18 +9,30 @@ import java.util.zip.*;
 
 public class UnzipFileAction {
     private static final String OUTPUT_FOLDER = "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
-            "AhmadSemrin/Uploaded Files/" + new Date().getTime();
+            "AhmadSemrin/Uploaded Files/" + (new Date().getYear() + 1990) + (new Date().getMonth() + 1) +
+            (new Date().getDate());
     private static List<File> files = new ArrayList<>();
 
     public static boolean unzipFile(String zipFile) {
         boolean result = false;
         byte[] buffer = new byte[1024];
+        String newOutputFolder = OUTPUT_FOLDER;
 
         try {
             //create output directory is not exists
             File folder = new File(OUTPUT_FOLDER);
             if (!folder.exists()) {
                 folder.mkdir();
+            } else {
+                for (int i = 1; ; i++) {
+                    newOutputFolder = OUTPUT_FOLDER.concat(" (" + i + ")");
+                    folder = new File(newOutputFolder);
+                    if (!folder.exists()) {
+                        folder.mkdir();
+
+                        break;
+                    }
+                }
             }
 
             //get the zip file content
@@ -31,7 +43,7 @@ public class UnzipFileAction {
 
             while (ze != null) {
                 String fileName = ze.getName();
-                File newFile = new File(OUTPUT_FOLDER + File.separator + fileName);
+                File newFile = new File(newOutputFolder + File.separator + fileName);
 
                 System.out.println("file unzip : " + newFile.getAbsoluteFile());
 
@@ -54,7 +66,7 @@ public class UnzipFileAction {
             zis.closeEntry();
             zis.close();
 
-            File newFile = new File(OUTPUT_FOLDER);
+            File newFile = new File(newOutputFolder);
             readFilesFromFolder(newFile);
 
             result = findAndEdit(files);
