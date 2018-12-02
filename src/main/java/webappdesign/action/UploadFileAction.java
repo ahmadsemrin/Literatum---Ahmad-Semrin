@@ -26,11 +26,14 @@ public class UploadFileAction {
             uploadedFile.setFile(item.getName());
             uploadedFile.setDate(new Date().toString());
 
-            if (UnzipFileAction.unzipFile(filePath)) {
+            Object[] results = UnzipFileAction.unzipFile(filePath);
+            if ((boolean) results[0]) {
                 uploadedFile.setStatus("Processed");
             } else {
                 uploadedFile.setStatus("Denied");
             }
+
+            uploadedFile.setExtractedFile((String) results[1]);
 
             fileDAO.insertFile(uploadedFile);
         }

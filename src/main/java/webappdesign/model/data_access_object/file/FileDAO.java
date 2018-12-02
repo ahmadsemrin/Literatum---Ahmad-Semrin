@@ -80,7 +80,8 @@ public class FileDAO implements IFileDAO {
                 "email VARCHAR(50) NOT NULL," +
                 "file VARCHAR(100) NOT NULL," +
                 "date VARCHAR(50) NOT NULL," +
-                "status VARCHAR(10) NOT NULL)";
+                "status VARCHAR(10) NOT NULL," +
+                "extractedFile VARCHAR(25))";
         try {
             executeSQLQuery(sqlQuery);
 
@@ -129,6 +130,7 @@ public class FileDAO implements IFileDAO {
         String fileName = getFileNameFromResultSet(resultSet);
         String date = getDateFromColumn(resultSet);
         String status = getStatusFromColumn(resultSet);
+        String extractedFile = getExtractedFileFromColumn(resultSet);
 
         UploadedFile file = new UploadedFile();
         file.setName(name);
@@ -136,6 +138,7 @@ public class FileDAO implements IFileDAO {
         file.setFile(fileName);
         file.setDate(date);
         file.setStatus(status);
+        file.setExtractedFile(extractedFile);
 
         return file;
     }
@@ -158,6 +161,10 @@ public class FileDAO implements IFileDAO {
 
     private String getStatusFromColumn(ResultSet resultSet) throws SQLException {
         return resultSet.getString("status");
+    }
+
+    private String getExtractedFileFromColumn(ResultSet resultSet) throws SQLException {
+        return resultSet.getString("extractedFile");
     }
 
     private void addFileToFileList(UploadedFile file) {
@@ -205,7 +212,7 @@ public class FileDAO implements IFileDAO {
 
     @Override
     public void insertFile(UploadedFile file) {
-        String sqlQuery = "INSERT INTO Literatum.File VALUES (?, ?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO Literatum.File VALUES (?, ?, ?, ?, ?, ?)";
 
         prepareStatementForSQLQuery(sqlQuery, file);
 
@@ -221,6 +228,7 @@ public class FileDAO implements IFileDAO {
             preparedStatement.setString(3, file.getFile());
             preparedStatement.setString(4, file.getDate());
             preparedStatement.setString(5, file.getStatus());
+            preparedStatement.setString(6, file.getExtractedFile());
 
             synchronized (MUTEX) {
                 preparedStatement.executeUpdate();
@@ -253,7 +261,7 @@ public class FileDAO implements IFileDAO {
 
     @Override
     public void deleteFile(UploadedFile file) {
-        String sqlQuery = "DELETE FROM Literatum.File WHERE name = ? AND email = ? AND file = ? AND date = ? AND status = ?";
+        String sqlQuery = "DELETE FROM Literatum.File WHERE name = ? AND email = ? AND file = ? AND date = ? AND status = ? AND extractedFile = ?";
 
         prepareStatementForSQLQuery(sqlQuery, file);
 

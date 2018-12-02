@@ -3,8 +3,7 @@ package webappdesign.action;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 import java.util.zip.*;
 
 public class UnzipFileAction {
@@ -13,7 +12,7 @@ public class UnzipFileAction {
             (new Date().getDate());
     private static List<File> files = new ArrayList<>();
 
-    public static boolean unzipFile(String zipFile) {
+    public static Object[] unzipFile(String zipFile) {
         boolean result = false;
         byte[] buffer = new byte[1024];
         String newOutputFolder = OUTPUT_FOLDER;
@@ -74,7 +73,13 @@ public class UnzipFileAction {
             ex.printStackTrace();
         }
 
-        return result;
+        int i = newOutputFolder.lastIndexOf('/');
+
+        Object[] ob = new Object[2];
+        ob[0] = result;
+        ob[1] = newOutputFolder.substring(i + 1);
+
+        return ob;
     }
 
     private static void readFilesFromFolder(File folder) {

@@ -8,6 +8,7 @@ public class UploadedFile implements Serializable {
     private String file;
     private String date;
     private String status;
+    private String extractedFile;
 
     public String getName() {
         return name;
@@ -29,6 +30,10 @@ public class UploadedFile implements Serializable {
         return status;
     }
 
+    public String getExtractedFile() {
+        return extractedFile;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -47,5 +52,9 @@ public class UploadedFile implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setExtractedFile(String extractedFile) {
+        this.extractedFile = extractedFile;
     }
 }
