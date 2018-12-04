@@ -1,3 +1,5 @@
+<%@ page import="webappdesign.model.UploadedFile" %>
+<%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
 
@@ -504,9 +506,13 @@
                                                     </td>
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Extract">
-                                                                <i class="zmdi zmdi-mail-send"></i>
-                                                            </button>
+                                                            <form action="transform">
+                                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Transform">
+                                                                    <input name="transformFile" value="${uploadedFile.extractedFile}" type="hidden">
+                                                                    <input type="submit">
+                                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                                </button>
+                                                            </form>
                                                             <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                                 <i class="zmdi zmdi-edit"></i>
                                                             </button>

@@ -5,6 +5,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import webappdesign.action.LoginAction;
 import webappdesign.action.SignUpAction;
+import webappdesign.action.TransformFileToXSLTAction;
 import webappdesign.action.UploadFileAction;
 import webappdesign.form.UserForm;
 import webappdesign.model.UploadedFile;
@@ -16,6 +17,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.TransformerException;
+import java.awt.*;
 import java.io.*;
 import java.util.List;
 
@@ -130,6 +133,16 @@ public class DispatcherFilter implements Filter {
             request.setAttribute("uploadedFiles", uploadedFiles);
 
             dispatchUrl = "/jsp/wat_page/table.jsp";
+        } else if ("transform".equals(pageURI)) {
+            TransformFileToXSLTAction transformFileToXSLTAction = new TransformFileToXSLTAction();
+            try {
+                String uploadedFile = req.getParameter("transformFile");
+                transformFileToXSLTAction.transform(uploadedFile);
+
+                dispatchUrl = "/jsp/articles/192536211700700101.html";
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
         }
 
         if (dispatchUrl != null) {
