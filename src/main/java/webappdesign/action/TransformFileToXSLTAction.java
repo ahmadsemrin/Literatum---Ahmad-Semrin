@@ -9,7 +9,7 @@ import java.util.regex.*;
 public class TransformFileToXSLTAction {
     private static List<File> files = new ArrayList<>();
 
-    public void transform(String fileName) throws TransformerException {
+    public String transform(String fileName) throws TransformerException {
         Source xslt = new StreamSource(new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/xslt/jats2.xsl"));
 
         readFilesFromFolder(new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/Uploaded Files/" + fileName));
@@ -19,10 +19,12 @@ public class TransformFileToXSLTAction {
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
 
-        File newFile = new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/jsp/articles/" + xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
+        File newFile = new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/articles/" + xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
         transformer.transform(text, new StreamResult(newFile));
 
         System.out.println("Transformed!");
+
+        return newFile.getName();
     }
 
     private static void readFilesFromFolder(File folder) {

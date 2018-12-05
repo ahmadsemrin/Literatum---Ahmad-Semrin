@@ -113,6 +113,12 @@ public class UnzipFileAction {
                                             "AhmadSemrin/jats.dtd");
                         }
 
+                        if (line.contains("<self-uri content-type=\"pdf\" xlink:href=\"")) {
+                            String path = fileEntry.getAbsolutePath().substring(0, fileEntry.getAbsolutePath().lastIndexOf("/"));
+                            line = line.replace("<self-uri content-type=\"pdf\" xlink:href=\"",
+                                    "<self-uri content-type=\"pdf\" xlink:href=\"" + path);
+                        }
+
                         lines.add(line);
                     }
 

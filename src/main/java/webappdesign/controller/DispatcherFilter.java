@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
@@ -27,6 +28,7 @@ public class DispatcherFilter implements Filter {
     private User currentUser;
     private List<UploadedFile> uploadedFiles;
     private IFileDAO fileDAO;
+    private String fileName;
 
     public void destroy() {
     }
@@ -137,9 +139,10 @@ public class DispatcherFilter implements Filter {
             TransformFileToXSLTAction transformFileToXSLTAction = new TransformFileToXSLTAction();
             try {
                 String uploadedFile = req.getParameter("transformFile");
-                transformFileToXSLTAction.transform(uploadedFile);
+                fileName = transformFileToXSLTAction.transform(uploadedFile);
 
-                dispatchUrl = "/jsp/articles/192536211700700101.html";
+                // dispatchUrl = "/jsp/articles/192536211700700101.html";
+                // findFileAndView(fileName, request, response);
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
@@ -149,7 +152,33 @@ public class DispatcherFilter implements Filter {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(dispatchUrl);
             requestDispatcher.forward(req, resp);
         } else {
-            chain.doFilter(req, resp);
+            if ("transform".equals(pageURI)) {
+                findFileAndView(fileName, request, response);
+            } else {
+                chain.doFilter(req, resp);
+            }
+        }
+    }
+
+    private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        File articlesFolder = new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/articles");
+        File[] articles = articlesFolder.listFiles();
+
+        for (File file : articles) {
+            if (file.getName().equals(fileName)) {
+                FileReader fileReader = new FileReader(file.getAbsoluteFile());
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                response.setContentType("text/html");
+                PrintWriter writer = response.getWriter();
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    writer.println(line);
+                }
+
+                bufferedReader.close();
+                fileReader.close();
+            }
         }
     }
 
