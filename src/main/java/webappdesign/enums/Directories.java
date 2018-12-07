@@ -1,7 +1,7 @@
 package webappdesign.enums;
 
 public enum Directories {
-    HOME_PATH("/home/ahmadsemrin"),
+    HOME_PATH("/home/asemrin"),
     PROJECT_PATH(HOME_PATH.getDirectory() + "/Documents/IdeaProjects/Maven Projects/Literatum - Ahmad Semrin"),
     UPLOADED_FILES_PATH(PROJECT_PATH.getDirectory() + "/Uploaded Files"),
     JATS_DTD_PATH(PROJECT_PATH.getDirectory() + "/jats.dtd"),
