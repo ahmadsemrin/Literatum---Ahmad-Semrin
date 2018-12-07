@@ -8,6 +8,7 @@ import webappdesign.action.SignUpAction;
 import webappdesign.action.TransformFileToXSLTAction;
 import webappdesign.action.UploadFileAction;
 import webappdesign.enums.Directories;
+import webappdesign.enums.Pages;
 import webappdesign.form.UserForm;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
@@ -54,7 +55,7 @@ public class DispatcherFilter implements Filter {
 
         String dispatchUrl = null;
         if ("login".equals(pageURI)) {
-            dispatchUrl = "/jsp/login_page/login.jsp";
+            dispatchUrl = Pages.LOGIN_PAGE.getPage();
         } else if ("loggedIn".equals(pageURI)) {
             UserForm userForm = new UserForm();
             userForm.setEmail(request.getParameter("email"));
@@ -69,27 +70,27 @@ public class DispatcherFilter implements Filter {
 
             if (currentUser != null) {
                 if (currentUser.getRole().equals("admin")) {
-                    dispatchUrl = "/jsp/wat_page/wat.jsp";
+                    dispatchUrl = Pages.WAT_PAGE.getPage();
                 } else if (currentUser.getRole().equals("super")) {
-                    dispatchUrl = "/jsp/wat_page/wat.jsp";
+                    dispatchUrl = Pages.WAT_PAGE.getPage();
                 } else if (currentUser.getRole().equals("basic")) {
-                    dispatchUrl = "/jsp/upload_file_page/upload.jsp";
+                    dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
                 }
             } else {
                 req.setAttribute("hiddenFieldLogin", "Make sure you inserted the right email and password.");
 
-                dispatchUrl = "/jsp/login_page/login.jsp";
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
             }
         } else if ("admin".equals(pageURI)) {
             if (currentUser == null) {
                 req.setAttribute("hiddenFieldLogin", "You must login first.");
 
-                dispatchUrl = "/jsp/login_page/login.jsp";
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
             } else {
-                dispatchUrl = "/jsp/wat_page/wat.jsp";
+                dispatchUrl = Pages.WAT_PAGE.getPage();
             }
         } else if ("sign-up".equals(pageURI)) {
-            dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
+            dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
         } else if ("signed".equals(pageURI)) {
             UserForm userForm = new UserForm();
             userForm.setEmail(request.getParameter("email"));
@@ -104,14 +105,14 @@ public class DispatcherFilter implements Filter {
                 SignUpAction signUpAction = new SignUpAction();
                 signUpAction.signUp(newUser);
 
-                dispatchUrl = "/jsp/upload_file_page/upload.jsp";
+                dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
             } else {
                 req.setAttribute("hiddenFieldSignUp", "Passwords are not the same.");
 
-                dispatchUrl = "/jsp/sign_up_page/sign_up.jsp";
+                dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
             }
         } else if ("upload".equals(pageURI)) {
-            dispatchUrl = "/jsp/upload_file_page/upload.jsp";
+            dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
         } else if ("uploaded".equals(pageURI)) {
             ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
             try {
@@ -128,14 +129,14 @@ public class DispatcherFilter implements Filter {
 
             request.setAttribute("uploadedFiles", uploadedFiles);
 
-            dispatchUrl = "/jsp/wat_page/table.jsp";
+            dispatchUrl = Pages.UPLOADED_FILES_PAGE.getPage();
         } else if ("table".equals(pageURI)) {
             fileDAO = FileDAO.getInstance();
             uploadedFiles = fileDAO.findAll();
 
             request.setAttribute("uploadedFiles", uploadedFiles);
 
-            dispatchUrl = "/jsp/wat_page/table.jsp";
+            dispatchUrl = Pages.UPLOADED_FILES_PAGE.getPage();
         } else if ("transform".equals(pageURI)) {
             TransformFileToXSLTAction transformFileToXSLTAction = new TransformFileToXSLTAction();
             try {
