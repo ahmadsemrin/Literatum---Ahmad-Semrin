@@ -7,6 +7,7 @@ import webappdesign.action.LoginAction;
 import webappdesign.action.SignUpAction;
 import webappdesign.action.TransformFileToXSLTAction;
 import webappdesign.action.UploadFileAction;
+import webappdesign.enums.Directories;
 import webappdesign.form.UserForm;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
@@ -140,9 +141,6 @@ public class DispatcherFilter implements Filter {
             try {
                 String uploadedFile = req.getParameter("transformFile");
                 fileName = transformFileToXSLTAction.transform(uploadedFile);
-
-                // dispatchUrl = "/jsp/articles/192536211700700101.html";
-                // findFileAndView(fileName, request, response);
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
@@ -161,7 +159,7 @@ public class DispatcherFilter implements Filter {
     }
 
     private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        File articlesFolder = new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/articles");
+        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory());
         File[] articles = articlesFolder.listFiles();
 
         for (File file : articles) {

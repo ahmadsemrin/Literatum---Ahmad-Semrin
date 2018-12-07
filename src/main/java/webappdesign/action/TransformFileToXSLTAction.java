@@ -1,5 +1,7 @@
 package webappdesign.action;
 
+import webappdesign.enums.Directories;
+
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import java.io.*;
@@ -10,16 +12,18 @@ public class TransformFileToXSLTAction {
     private static List<File> files = new ArrayList<>();
 
     public String transform(String fileName) throws TransformerException {
-        Source xslt = new StreamSource(new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/xslt/jats2.xsl"));
+        Source xslt = new StreamSource(new File(Directories.JATS_XSLT_PATH.getDirectory()));
 
-        readFilesFromFolder(new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/Uploaded Files/" + fileName));
+        readFilesFromFolder(new File(Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
+                fileName));
         File xml = findFile(files);
         Source text = new StreamSource(xml);
 
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
 
-        File newFile = new File("/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin/src/main/webapp/articles/" + xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
+        File newFile = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator +
+                xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
         transformer.transform(text, new StreamResult(newFile));
 
         System.out.println("Transformed!");

@@ -1,5 +1,7 @@
 package webappdesign.action;
 
+import webappdesign.enums.Directories;
+
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.*;
@@ -7,9 +9,8 @@ import java.util.regex.*;
 import java.util.zip.*;
 
 public class UnzipFileAction {
-    private static final String OUTPUT_FOLDER = "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
-            "AhmadSemrin/Uploaded Files/" + (new Date().getYear() + 1990) + (new Date().getMonth() + 1) +
-            (new Date().getDate());
+    private static final String OUTPUT_FOLDER = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
+            (new Date().getYear() + 1990) + (new Date().getMonth() + 1) + (new Date().getDate());
     private static List<File> files = new ArrayList<>();
 
     public static Object[] unzipFile(String zipFile) {
@@ -109,8 +110,7 @@ public class UnzipFileAction {
                     while ((line = bufferedReader.readLine()) != null) {
                         if (line.contains("JATS-archivearticle1.dtd")) {
                             line = line.replace("JATS-archivearticle1.dtd",
-                                    "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
-                                            "AhmadSemrin/jats.dtd");
+                                    Directories.JATS_DTD_PATH.getDirectory());
                         }
 
                         if (line.contains("<self-uri content-type=\"pdf\" xlink:href=\"")) {

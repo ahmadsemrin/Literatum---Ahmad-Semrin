@@ -1,6 +1,7 @@
 package webappdesign.action;
 
 import org.apache.commons.fileupload.FileItem;
+import webappdesign.enums.Directories;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.data_access_object.file.FileDAO;
 import webappdesign.model.data_access_object.file.IFileDAO;
@@ -16,8 +17,7 @@ public class UploadFileAction {
         fileDAO = FileDAO.getInstance();
 
         for (FileItem item : files) {
-            String filePath = "/home/asemrin/Documents/IdeaProjects/Maven Projects/Literatum - " +
-                    "AhmadSemrin/Uploaded Files/" + item.getName();
+            String filePath = Directories.UPLOADED_FILES_PATH.getDirectory() + "/" + item.getName();
             item.write(new File(filePath));
 
             UploadedFile uploadedFile = new UploadedFile();
