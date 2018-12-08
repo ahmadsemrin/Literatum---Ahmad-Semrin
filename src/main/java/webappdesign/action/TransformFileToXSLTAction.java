@@ -1,6 +1,7 @@
 package webappdesign.action;
 
 import webappdesign.enums.Directories;
+import webappdesign.model.Article;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
@@ -11,7 +12,7 @@ import java.util.regex.*;
 public class TransformFileToXSLTAction {
     private static List<File> files = new ArrayList<>();
 
-    public String transform(String fileName) throws TransformerException {
+    public Article transform(String fileName) throws TransformerException {
         Source xslt = new StreamSource(new File(Directories.JATS_XSLT_PATH.getDirectory()));
 
         readFilesFromFolder(new File(Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
@@ -28,7 +29,13 @@ public class TransformFileToXSLTAction {
 
         System.out.println("Transformed!");
 
-        return newFile.getName();
+        Article article = new Article();
+        article.setArticleName(newFile.getName());
+        article.setArticleSection("");
+        article.setPublishDate(new Date());
+        article.setPrice(0);
+
+        return article;
     }
 
     private static void readFilesFromFolder(File folder) {

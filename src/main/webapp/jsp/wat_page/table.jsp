@@ -506,7 +506,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="table-data-feature">
-                                                            <form action="transform">
+                                                            <form action="transform" method="post">
                                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Transform">
                                                                     <input name="transformFile" value="${uploadedFile.extractedFile}" type="hidden">
                                                                     <input type="submit">

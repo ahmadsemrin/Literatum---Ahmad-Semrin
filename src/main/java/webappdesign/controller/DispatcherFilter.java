@@ -10,6 +10,7 @@ import webappdesign.action.UploadFileAction;
 import webappdesign.enums.Directories;
 import webappdesign.enums.Pages;
 import webappdesign.form.UserForm;
+import webappdesign.model.Article;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
 import webappdesign.model.data_access_object.file.FileDAO;
@@ -23,6 +24,7 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
@@ -30,7 +32,8 @@ public class DispatcherFilter implements Filter {
     private User currentUser;
     private List<UploadedFile> uploadedFiles;
     private IFileDAO fileDAO;
-    private String fileName;
+    private Article article;
+    private List<Article> articleList;
 
     public void destroy() {
     }
@@ -141,10 +144,20 @@ public class DispatcherFilter implements Filter {
             TransformFileToXSLTAction transformFileToXSLTAction = new TransformFileToXSLTAction();
             try {
                 String uploadedFile = req.getParameter("transformFile");
-                fileName = transformFileToXSLTAction.transform(uploadedFile);
+                article = transformFileToXSLTAction.transform(uploadedFile);
+
+                if (articleList.size() == 0) {
+                    articleList = new ArrayList<>();
+                }
+
+                articleList.add(article);
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
+        } else if ("user".equals(pageURI)) {
+            request.setAttribute("articles", articleList);
+
+            dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
         }
 
         if (dispatchUrl != null) {
@@ -152,15 +165,16 @@ public class DispatcherFilter implements Filter {
             requestDispatcher.forward(req, resp);
         } else {
             if ("transform".equals(pageURI)) {
-                findFileAndView(fileName, request, response);
+                findFileAndView(article.getArticleName(), request, response);
             } else {
                 chain.doFilter(req, resp);
             }
         }
     }
 
-    private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory());
+    private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator);
         File[] articles = articlesFolder.listFiles();
 
         for (File file : articles) {
