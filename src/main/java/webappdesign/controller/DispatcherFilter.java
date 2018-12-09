@@ -89,16 +89,26 @@ public class DispatcherFilter implements Filter {
                 req.setAttribute("hiddenFieldLogin", "You must login first.");
 
                 dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else {
+            } else if (currentUser.getRole().equals("basic")){
+                req.setAttribute("articles", articleList);
+
                 dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
+            } else {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
             }
         } else if ("admin".equals(pageURI)) {
             if (currentUser == null) {
                 req.setAttribute("hiddenFieldLogin", "You must login first.");
 
                 dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else {
+            } else if (currentUser.getRole().equals("admin")) {
                 dispatchUrl = Pages.WAT_PAGE.getPage();
+            } else {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
             }
         } else if ("sign-up".equals(pageURI)) {
             dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
@@ -162,15 +172,18 @@ public class DispatcherFilter implements Filter {
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
-        } else if ("".equals(pageURI)) {
+        } else if ("article".equals(pageURI)) {
+            String articleName = req.getParameter("articleName");
 
+            article = new Article();
+            article.setArticleName(articleName);
         }
 
         if (dispatchUrl != null) {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(dispatchUrl);
             requestDispatcher.forward(req, resp);
         } else {
-            if ("transform".equals(pageURI)) {
+            if ("transform".equals(pageURI) || "article".equals(pageURI)) {
                 findFileAndView(article.getArticleName(), request, response);
             } else {
                 chain.doFilter(req, resp);

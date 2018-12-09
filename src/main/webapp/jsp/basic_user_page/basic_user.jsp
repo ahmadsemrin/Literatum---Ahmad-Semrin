@@ -35,7 +35,7 @@
         <header class="codrops-header">
             <div class="codrops-links">
                 <a class="codrops-icon codrops-icon--prev" href="login" title="Log out"><span>Log out</span></a>
-                <a class="codrops-icon codrops-icon--drop" href="user" title="Back to the article"><span>Back to the article</span></a>
+                <a class="codrops-icon codrops-icon--drop" href="basic" title="Back to the article"><span>Back to the article</span></a>
             </div>
             <h1><span>Inspiration for</span> Articles</h1>
         </header>
@@ -54,47 +54,14 @@
                         <ul class="pricing__feature-list">
                             <li class="pricing__feature">${article.publishDate}</li>
                         </ul>
-                        <button class="pricing__action">Read Article</button>
+                        <form method="post" action="article">
+                            <button class="pricing__action">Read Article
+                                <input name="articleName" value="${article.articleName}" type="hidden">
+                                <input type="submit">
+                            </button>
+                        </form>
                     </div>
                 </c:forEach>
-                <%--<div class="pricing__item">
-                    <h3 class="pricing__title">Freelancer</h3>
-                    <div class="pricing__price"><span class="pricing__currency">$</span>Free</div>
-                    <p class="pricing__sentence">Perfect for single freelancers who work by themselves</p>
-                    <ul class="pricing__feature-list">
-                        <li class="pricing__feature">Support forum</li>
-                        <li class="pricing__feature">Free hosting</li>
-                        <li class="pricing__feature">40MB of storage space</li>
-                    </ul>
-                    <button class="pricing__action">Read Article</button>
-                </div>
-                <div class="pricing__item">
-                    <h3 class="pricing__title">Small business</h3>
-                    <div class="pricing__price"><span class="pricing__currency">$</span>Free</div>
-                    <p class="pricing__sentence">Suitable for small businesses with up to 5 employees</p>
-                    <ul class="pricing__feature-list">
-                        <li class="pricing__feature">Unlimited calls</li>
-                        <li class="pricing__feature">Free hosting</li>
-                        <li class="pricing__feature">10 hours of support</li>
-                        <li class="pricing__feature">Social media integration</li>
-                        <li class="pricing__feature">1GB of storage space</li>
-                    </ul>
-                    <button class="pricing__action">Read Article</button>
-                </div>
-                <div class="pricing__item">
-                    <h3 class="pricing__title">Larger business</h3>
-                    <div class="pricing__price"><span class="pricing__currency">$</span>Free</div>
-                    <p class="pricing__sentence">Great for large businesses with more than 5 employees</p>
-                    <ul class="pricing__feature-list">
-                        <li class="pricing__feature">Unlimited calls</li>
-                        <li class="pricing__feature">Free hosting</li>
-                        <li class="pricing__feature">Unlimited hours of support</li>
-                        <li class="pricing__feature">Social media integration</li>
-                        <li class="pricing__feature">Anaylitcs integration</li>
-                        <li class="pricing__feature">Unlimited storage space</li>
-                    </ul>
-                    <button class="pricing__action">Read Article</button>
-                </div>--%>
             </div>
         </section>
     </div>
