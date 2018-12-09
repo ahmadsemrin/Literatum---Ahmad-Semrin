@@ -77,12 +77,20 @@ public class DispatcherFilter implements Filter {
                 } else if (currentUser.getRole().equals("super")) {
                     dispatchUrl = Pages.WAT_PAGE.getPage();
                 } else if (currentUser.getRole().equals("basic")) {
-                    dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
+                    dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
                 }
             } else {
                 req.setAttribute("hiddenFieldLogin", "Make sure you inserted the right email and password.");
 
                 dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            }
+        } else if ("basic".equals(pageURI)) {
+            if (currentUser == null) {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            } else {
+                dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
             }
         } else if ("admin".equals(pageURI)) {
             if (currentUser == null) {
@@ -154,10 +162,8 @@ public class DispatcherFilter implements Filter {
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
-        } else if ("user".equals(pageURI)) {
-            request.setAttribute("articles", articleList);
+        } else if ("".equals(pageURI)) {
 
-            dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
         }
 
         if (dispatchUrl != null) {
