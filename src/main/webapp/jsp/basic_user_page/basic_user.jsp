@@ -57,7 +57,7 @@
                         <form method="post" action="article">
                             <button class="pricing__action">Read Article
                                 <input name="articleName" value="${article.articleName}" type="hidden">
-                                <input type="submit">
+                                <input type="submit" style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
                             </button>
                         </form>
                     </div>

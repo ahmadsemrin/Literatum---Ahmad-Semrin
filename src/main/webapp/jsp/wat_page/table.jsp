@@ -509,7 +509,7 @@
                                                             <form action="transform" method="post">
                                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Transform">
                                                                     <input name="transformFile" value="${uploadedFile.extractedFile}" type="hidden">
-                                                                    <input type="submit">
+                                                                    <input type="submit" style="color: transparent; background-color: transparent; border-color: transparent; cursor: default;">
                                                                     <i class="zmdi zmdi-mail-send"></i>
                                                                 </button>
                                                             </form>

@@ -1,14 +1,12 @@
 package webappdesign.enums;
 
 public enum Pages {
-    JSP_DIRECTORY("/jsp"),
-    LOGIN_PAGE(JSP_DIRECTORY.getPage() + "/login_page/login.jsp"),
-    SIGN_UP_PAGE(JSP_DIRECTORY.getPage() + "/sign_up_page/sign_up.jsp"),
-    BASIC_USER_PAGE(JSP_DIRECTORY.getPage() + "/basic_user_page/basic_user.jsp"),
-    WAT_PAGE(JSP_DIRECTORY.getPage() + "/wat_page/wat.jsp"),
-    UPLOAD_FILE_PAGE(JSP_DIRECTORY.getPage() + "/upload_file_page/upload.jsp"),
-    UPLOADED_FILES_PAGE(JSP_DIRECTORY.getPage() + "/wat_page/table.jsp");
-
+    LOGIN_PAGE(Directories.JSP_PATH.getDirectory() + "/login_page/login.jsp"),
+    SIGN_UP_PAGE(Directories.JSP_PATH.getDirectory() + "/sign_up_page/sign_up.jsp"),
+    BASIC_USER_PAGE(Directories.JSP_PATH.getDirectory() + "/basic_user_page/basic_user.jsp"),
+    WAT_PAGE(Directories.JSP_PATH.getDirectory() + "/wat_page/wat.jsp"),
+    UPLOAD_FILE_PAGE(Directories.JSP_PATH.getDirectory() + "/upload_file_page/upload.jsp"),
+    UPLOADED_FILES_PAGE(Directories.JSP_PATH.getDirectory() + "/wat_page/table.jsp");
 
     String page;
 

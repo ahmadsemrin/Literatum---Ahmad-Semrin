@@ -17,7 +17,7 @@ public class UploadFileAction {
         fileDAO = FileDAO.getInstance();
 
         for (FileItem item : files) {
-            String filePath = Directories.UPLOADED_FILES_PATH.getDirectory() + "/" + item.getName();
+            String filePath = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator + item.getName();
             item.write(new File(filePath));
 
             UploadedFile uploadedFile = new UploadedFile();
