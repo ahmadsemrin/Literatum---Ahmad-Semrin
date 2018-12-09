@@ -146,7 +146,7 @@ public class DispatcherFilter implements Filter {
                 String uploadedFile = req.getParameter("transformFile");
                 article = transformFileToXSLTAction.transform(uploadedFile);
 
-                if (articleList.size() == 0) {
+                if (articleList == null) {
                     articleList = new ArrayList<>();
                 }
 
