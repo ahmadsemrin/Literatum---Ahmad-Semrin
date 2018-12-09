@@ -193,7 +193,7 @@ public class DispatcherFilter implements Filter {
 
     private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator);
+        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory());
         File[] articles = articlesFolder.listFiles();
 
         for (File file : articles) {
