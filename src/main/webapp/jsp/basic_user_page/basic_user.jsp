@@ -50,7 +50,7 @@
                                 Free
                             </c:if>
                         </div>
-                        <p class="pricing__sentence">${article.section}</p>
+                        <p class="pricing__sentence">${article.articleSection}</p>
                         <ul class="pricing__feature-list">
                             <li class="pricing__feature">${article.publishDate}</li>
                         </ul>
