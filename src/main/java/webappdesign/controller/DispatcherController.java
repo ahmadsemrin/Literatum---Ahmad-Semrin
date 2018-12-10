@@ -75,6 +75,8 @@ public class DispatcherController implements Filter {
                 } else if (currentUser.getRole().equals("admin")) {
                     dispatchUrl = Pages.ADMIN_PAGE.getPage();
                 } else if (currentUser.getRole().equals("basic")) {
+                    req.setAttribute("articles", articleList);
+
                     dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
                 }
             } else {
