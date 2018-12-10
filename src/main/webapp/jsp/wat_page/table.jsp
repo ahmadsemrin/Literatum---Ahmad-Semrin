@@ -142,6 +142,10 @@
                             <a href="table">
                                 <i class="fas fa-table"></i>Uploaded Files</a>
                         </li>
+                        <li>
+                            <a href="addAdmin">
+                                <i class="zmdi zmdi-account-o"></i>Add an Admin</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -238,6 +242,10 @@
                         <li>
                             <a href="table">
                                 <i class="fas fa-table"></i>Uploaded Files</a>
+                        </li>
+                        <li>
+                            <a href="addAdmin">
+                                <i class="zmdi zmdi-account-o"></i>Add an Admin</a>
                         </li>
                     </ul>
                 </nav>

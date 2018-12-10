@@ -42,6 +42,9 @@
         <section class="pricing-section bg-11">
             <h2 class="pricing-section__title">Our Articles</h2>
             <div class="pricing pricing--tenzin">
+                <c:if test="${requestScope.articles == null}">
+                    <h3 style="color:red">There are no articles yet!</h3>
+                </c:if>
                 <c:forEach var="article" items="${requestScope.articles}">
                     <div class="pricing__item">
                         <h3 class="pricing__title">${article.articleName}</h3>

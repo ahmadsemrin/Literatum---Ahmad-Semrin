@@ -121,12 +121,17 @@ public class DispatcherFilter implements Filter {
                 User newUser = new User();
                 newUser.setEmail(userForm.getEmail());
                 newUser.setPassword(userForm.getPassword());
-                newUser.setRole("basic");
+                if (newUser.getEmail().startsWith("admin")) {
+                    newUser.setRole("admin");
+                } else {
+                    newUser.setRole("basic");
+                }
 
                 SignUpAction signUpAction = new SignUpAction();
                 signUpAction.signUp(newUser);
 
-                dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
+                currentUser = null;
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
             } else {
                 req.setAttribute("hiddenFieldSignUp", "Passwords are not the same.");
 
@@ -177,6 +182,8 @@ public class DispatcherFilter implements Filter {
 
             article = new Article();
             article.setArticleName(articleName);
+        } else if ("addAdmin".equals(pageURI)) {
+            dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
         }
 
         if (dispatchUrl != null) {
