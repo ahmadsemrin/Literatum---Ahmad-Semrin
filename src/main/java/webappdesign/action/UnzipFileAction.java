@@ -25,7 +25,7 @@ public class UnzipFileAction {
                 folder.mkdir();
             } else {
                 for (int i = 1; ; i++) {
-                    newOutputFolder = OUTPUT_FOLDER.concat(" (" + i + ")");
+                    newOutputFolder = OUTPUT_FOLDER.concat("(" + i + ")");
                     folder = new File(newOutputFolder);
                     if (!folder.exists()) {
                         folder.mkdir();
