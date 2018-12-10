@@ -13,6 +13,9 @@
     <!-- Title Page-->
     <title>Dashboard</title>
 
+    <!-- Favicon-->
+    <link rel="icon" href="<c:url value="/jsp/basic_user_page/favicon.ico"/>" type="image/icon"/>
+
     <!-- Fontfaces CSS-->
     <link href="<c:url value="/jsp/wat_page/css/font-face.css"/>" rel="stylesheet" media="all">
     <link href="<c:url value="/jsp/wat_page/vendor/font-awesome-4.7/css/font-awesome.min.css"/>" rel="stylesheet" media="all">

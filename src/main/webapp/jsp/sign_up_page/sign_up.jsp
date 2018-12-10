@@ -1,9 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
   <title>Register to Atypon</title>
-      <link rel="stylesheet" href="jsp/sign_up_page/css/style.css">
+  <link rel="icon" href="<c:url value="/jsp/basic_user_page/favicon.ico"/>" type="image/icon"/>
+  <link rel="stylesheet" href="jsp/sign_up_page/css/style.css">
 </head>
 <body>
   <div id="login-box">

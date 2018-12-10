@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <title>File upload input</title>
-      <link rel="stylesheet" href="<c:url value="/jsp/upload_file_page/css/style.css"/>">
+  <link rel="icon" href="<c:url value="/jsp/basic_user_page/favicon.ico"/>" type="image/icon"/>
+  <link rel="stylesheet" href="<c:url value="/jsp/upload_file_page/css/style.css"/>">
 </head>
 <body>
   <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>

@@ -21,10 +21,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.TransformerException;
-import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
@@ -72,15 +70,39 @@ public class DispatcherFilter implements Filter {
             currentUser = loginAction.login(newUser);
 
             if (currentUser != null) {
-                if (currentUser.getRole().equals("admin")) {
-                    dispatchUrl = Pages.WAT_PAGE.getPage();
-                } else if (currentUser.getRole().equals("super")) {
-                    dispatchUrl = Pages.WAT_PAGE.getPage();
+                if (currentUser.getRole().equals("super")) {
+                    dispatchUrl = Pages.SUPER_ADMIN_PAGE.getPage();
+                } else if (currentUser.getRole().equals("admin")) {
+                    dispatchUrl = Pages.ADMIN_PAGE.getPage();
                 } else if (currentUser.getRole().equals("basic")) {
                     dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
                 }
             } else {
                 req.setAttribute("hiddenFieldLogin", "Make sure you inserted the right email and password.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            }
+        } else if ("super".equals(pageURI)) {
+            if (currentUser == null) {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            } else if (currentUser.getRole().equals("admin")) {
+                dispatchUrl = Pages.SUPER_ADMIN_PAGE.getPage();
+            } else {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            }
+        } else if ("admin".equals(pageURI)) {
+            if (currentUser == null) {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
+
+                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+            } else if (currentUser.getRole().equals("admin")) {
+                dispatchUrl = Pages.ADMIN_PAGE.getPage();
+            } else {
+                req.setAttribute("hiddenFieldLogin", "You must login first.");
 
                 dispatchUrl = Pages.LOGIN_PAGE.getPage();
             }
@@ -93,18 +115,6 @@ public class DispatcherFilter implements Filter {
                 req.setAttribute("articles", articleList);
 
                 dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
-            } else {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
-
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            }
-        } else if ("admin".equals(pageURI)) {
-            if (currentUser == null) {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
-
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else if (currentUser.getRole().equals("admin")) {
-                dispatchUrl = Pages.WAT_PAGE.getPage();
             } else {
                 req.setAttribute("hiddenFieldLogin", "You must login first.");
 

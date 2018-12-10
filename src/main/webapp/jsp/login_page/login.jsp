@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="jsp/login_page/images/icons/atypon_page_icon.png"/>
+    <link rel="icon" href="<c:url value="/jsp/basic_user_page/favicon.ico"/>" type="image/icon"/>
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="jsp/login_page/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->

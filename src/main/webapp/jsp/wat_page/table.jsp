@@ -15,7 +15,10 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Tables</title>
+    <title>Uploaded Files</title>
+
+    <!-- Favicon-->
+    <link rel="icon" href="<c:url value="/jsp/basic_user_page/favicon.ico"/>" type="image/icon"/>
 
     <!-- Fontfaces CSS-->
     <link href="<c:url value="/jsp/wat_page/css/font-face.css"/>" rel="stylesheet" media="all">
