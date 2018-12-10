@@ -25,8 +25,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebFilter(filterName = "DispatcherFilter", urlPatterns = {"/*"})
-public class DispatcherFilter implements Filter {
+@WebFilter(filterName = "DispatcherController", urlPatterns = {"/*"})
+public class DispatcherController implements Filter {
     private User currentUser;
     private List<UploadedFile> uploadedFiles;
     private IFileDAO fileDAO;
