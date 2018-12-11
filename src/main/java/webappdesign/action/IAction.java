@@ -1,5 +1,5 @@
 package webappdesign.action;
 
 public interface IAction {
-    void doAction();
+    public Object doAction(Object object);
 }

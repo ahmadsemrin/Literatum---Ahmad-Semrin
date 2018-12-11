@@ -4,15 +4,22 @@ import webappdesign.enums.Directories;
 import webappdesign.model.Article;
 
 import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class TransformFileToXSLTAction {
+public class ActionTransformFileToXSLT implements IAction {
     private static List<File> files = new ArrayList<>();
 
-    public Article transform(String fileName) throws TransformerException {
+    @Override
+    public Object doAction(Object object) {
+        String fileName = (String) object;
+
         Source xslt = new StreamSource(new File(Directories.JATS_XSLT_PATH.getDirectory()));
 
         readFilesFromFolder(new File(Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
@@ -21,11 +28,17 @@ public class TransformFileToXSLTAction {
         Source text = new StreamSource(xml);
 
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(xslt);
+        Transformer transformer = null;
+        File newFile = null;
+        try {
+            transformer = factory.newTransformer(xslt);
 
-        File newFile = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator +
-                xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
-        transformer.transform(text, new StreamResult(newFile));
+            newFile = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator +
+                    xml.getName().substring(0, xml.getName().lastIndexOf('.')) + ".html");
+            transformer.transform(text, new StreamResult(newFile));
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Transformed!");
 

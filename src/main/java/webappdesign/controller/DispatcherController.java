@@ -3,10 +3,7 @@ package webappdesign.controller;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import webappdesign.action.LoginAction;
-import webappdesign.action.SignUpAction;
-import webappdesign.action.TransformFileToXSLTAction;
-import webappdesign.action.UploadFileAction;
+import webappdesign.action.*;
 import webappdesign.enums.Directories;
 import webappdesign.enums.Pages;
 import webappdesign.form.UserForm;
@@ -66,8 +63,8 @@ public class DispatcherController implements Filter {
             newUser.setEmail(userForm.getEmail());
             newUser.setPassword(userForm.getPassword());
 
-            LoginAction loginAction = new LoginAction();
-            currentUser = loginAction.login(newUser);
+            ActionContext actionContext = new ActionContext(new ActionLogin());
+            currentUser = (User) actionContext.executeAction(newUser);
 
             if (currentUser != null) {
                 if (currentUser.getRole().equals("super")) {
@@ -139,8 +136,8 @@ public class DispatcherController implements Filter {
                     newUser.setRole("basic");
                 }
 
-                SignUpAction signUpAction = new SignUpAction();
-                signUpAction.signUp(newUser);
+                ActionContext actionContext = new ActionContext(new ActionSignUp());
+                actionContext.executeAction(newUser);
 
                 currentUser = null;
                 dispatchUrl = Pages.LOGIN_PAGE.getPage();
@@ -156,8 +153,8 @@ public class DispatcherController implements Filter {
             try {
                 List<FileItem> multiFiles = servletFileUpload.parseRequest(request);
 
-                UploadFileAction uploadFileAction = new UploadFileAction();
-                uploadFileAction.uploadFiles(multiFiles);
+                ActionContext actionContext = new ActionContext(new ActionUploadFile());
+                actionContext.executeAction(multiFiles);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -176,19 +173,16 @@ public class DispatcherController implements Filter {
 
             dispatchUrl = Pages.UPLOADED_FILES_PAGE.getPage();
         } else if ("transform".equals(pageURI)) {
-            TransformFileToXSLTAction transformFileToXSLTAction = new TransformFileToXSLTAction();
-            try {
-                String uploadedFile = req.getParameter("transformFile");
-                article = transformFileToXSLTAction.transform(uploadedFile);
+            String uploadedFile = req.getParameter("transformFile");
 
-                if (articleList == null) {
-                    articleList = new ArrayList<>();
-                }
+            ActionContext actionContext = new ActionContext(new ActionTransformFileToXSLT());
+            article = (Article) actionContext.executeAction(uploadedFile);
 
-                articleList.add(article);
-            } catch (TransformerException e) {
-                e.printStackTrace();
+            if (articleList == null) {
+                articleList = new ArrayList<>();
             }
+
+            articleList.add(article);
         } else if ("article".equals(pageURI)) {
             String articleName = req.getParameter("articleName");
 

@@ -4,11 +4,12 @@ import webappdesign.model.User;
 import webappdesign.model.data_access_object.user.IUserDAO;
 import webappdesign.model.data_access_object.user.UserDAO;
 
-public class LoginAction {
-    private static IUserDAO userDAO;
+public class ActionLogin implements IAction {
+    @Override
+    public Object doAction(Object object) {
+        IUserDAO userDAO = UserDAO.getInstance();
 
-    public User login(User user) {
-        userDAO = UserDAO.getInstance();
+        User user = (User) object;
 
         User foundUser = userDAO.findByEmail(user.getEmail());
         if (foundUser != null) {

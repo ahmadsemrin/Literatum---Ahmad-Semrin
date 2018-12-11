@@ -1,18 +1,25 @@
 package webappdesign.action;
 
-import org.xml.sax.*;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.StringReader;
 
-public class CheckFileValidityAction {
-    public static boolean validateWithDTDUsingDOM(String xml) throws ParserConfigurationException, IOException {
+public class ActionValidateFileWithDTDUsingDOM implements IAction {
+    @Override
+    public Object doAction(Object object) {
+        String xml = (String) object;
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setValidating(true);
+        factory.setNamespaceAware(true);
+
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setValidating(true);
-            factory.setNamespaceAware(true);
-
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             builder.setErrorHandler(new ErrorHandler() {
@@ -37,11 +44,11 @@ public class CheckFileValidityAction {
 
             return true;
         } catch (ParserConfigurationException | IOException e) {
-            throw e;
-        } catch (SAXException e) {
             e.printStackTrace();
-
+        } catch (SAXException e) {
             return false;
         }
+
+        return false;
     }
 }

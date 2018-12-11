@@ -4,16 +4,23 @@ import webappdesign.enums.Directories;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.*;
-import java.util.regex.*;
-import java.util.zip.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-public class UnzipFileAction {
+public class ActionUnzipFile implements IAction {
     private static final String OUTPUT_FOLDER = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
             (new Date().getYear() + 1990) + (new Date().getMonth() + 1) + (new Date().getDate());
     private static List<File> files = new ArrayList<>();
 
-    public static Object[] unzipFile(String zipFile) {
+    @Override
+    public Object doAction(Object object) {
+        String zipFile = (String) object;
+
         boolean result = false;
         byte[] buffer = new byte[1024];
         String newOutputFolder = OUTPUT_FOLDER;
@@ -134,17 +141,15 @@ public class UnzipFileAction {
                     bufferedWriter.close();
                     fileWriter.close();
 
-                    try {
-                        String regexStr="^(\\d)+(\\.xml)$";
-                        Pattern pattern = Pattern.compile(regexStr);
-                        Matcher matcher = pattern.matcher(fileEntry.getName());
-                        if (matcher.matches() &&
-                                CheckFileValidityAction.validateWithDTDUsingDOM(fileEntry.getAbsolutePath())) {
+                    ActionContext actionContext = new ActionContext(new ActionValidateFileWithDTDUsingDOM());
 
-                            return true;
-                        }
-                    } catch (ParserConfigurationException | IOException e) {
-                        e.printStackTrace();
+                    String regexStr="^(\\d)+(\\.xml)$";
+                    Pattern pattern = Pattern.compile(regexStr);
+                    Matcher matcher = pattern.matcher(fileEntry.getName());
+                    if (matcher.matches() &&
+                            (boolean) actionContext.executeAction(fileEntry.getAbsolutePath())) {
+
+                        return true;
                     }
                 }
             }
