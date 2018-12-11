@@ -1,6 +1,7 @@
 package webappdesign.action;
 
 import webappdesign.enums.Directories;
+import webappdesign.util.FileUtil;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
@@ -15,7 +16,6 @@ import java.util.zip.ZipInputStream;
 public class ActionUnzipFile implements IAction {
     private static final String OUTPUT_FOLDER = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator +
             (new Date().getYear() + 1990) + (new Date().getMonth() + 1) + (new Date().getDate());
-    private static List<File> files = new ArrayList<>();
 
     @Override
     public Object doAction(Object object) {
@@ -74,7 +74,7 @@ public class ActionUnzipFile implements IAction {
             zis.close();
 
             File newFile = new File(newOutputFolder);
-            readFilesFromFolder(newFile);
+            List<File> files = FileUtil.getFiles(newFile);
 
             result = findAndEdit(files);
         } catch (IOException ex) {
@@ -88,17 +88,6 @@ public class ActionUnzipFile implements IAction {
         ob[1] = newOutputFolder.substring(i + 1);
 
         return ob;
-    }
-
-    private static void readFilesFromFolder(File folder) {
-        if(folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            for(File currFile : files) {
-                readFilesFromFolder(currFile);
-            }
-        } else {
-            files.add(folder);
-        }
     }
 
     private static boolean findAndEdit(List<File> files) throws IOException {
