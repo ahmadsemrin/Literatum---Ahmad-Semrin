@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Article implements Serializable {
     private String articleName;
-    private String articleSection;
+    private String title;
     private Date publishDate;
     private double price;
 
@@ -13,8 +13,8 @@ public class Article implements Serializable {
         this.articleName = articleName;
     }
 
-    public void setArticleSection(String articleSection) {
-        this.articleSection = articleSection;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setPublishDate(Date publishDate) {
@@ -29,8 +29,8 @@ public class Article implements Serializable {
         return articleName;
     }
 
-    public String getArticleSection() {
-        return articleSection;
+    public String getTitle() {
+        return title;
     }
 
     public Date getPublishDate() {

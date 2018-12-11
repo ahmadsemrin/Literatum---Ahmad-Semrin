@@ -6,7 +6,7 @@ import webappdesign.model.Article;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,9 +42,31 @@ public class ActionTransformFileToXSLT implements IAction {
 
         System.out.println("Transformed!");
 
+        FileReader fileReader = null;
+        String title = "";
+        try {
+            fileReader = new FileReader(xml);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains("<article-title>")) {
+                    int i = line.indexOf("<article-title>");
+                    int j = line.indexOf("</article-title>");
+                    title = line.substring(i,j);
+                }
+            }
+
+            bufferedReader.close();
+            fileReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         Article article = new Article();
         article.setArticleName(newFile.getName());
-        article.setArticleSection("");
+        article.setTitle(title);
         article.setPublishDate(new Date());
         article.setPrice(0);
 

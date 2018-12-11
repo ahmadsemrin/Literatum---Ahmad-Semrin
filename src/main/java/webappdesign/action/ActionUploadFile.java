@@ -15,8 +15,6 @@ public class ActionUploadFile implements IAction {
     public Object doAction(Object object) {
         List<FileItem> files = (List<FileItem>) object;
 
-        IFileDAO fileDAO = FileDAO.getInstance();
-
         for (FileItem item : files) {
             String filePath = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator + item.getName();
             try {
@@ -41,6 +39,7 @@ public class ActionUploadFile implements IAction {
 
             uploadedFile.setExtractedFile((String) results[1]);
 
+            IFileDAO fileDAO = FileDAO.getInstance();
             fileDAO.insertFile(uploadedFile);
         }
 
