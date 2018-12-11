@@ -13,7 +13,7 @@ import java.util.List;
 public class ActionUploadFile implements IAction {
     @Override
     public Object doAction(Object object) {
-        List<FileItem> files = (List) object;
+        List<FileItem> files = (List<FileItem>) object;
 
         IFileDAO fileDAO = FileDAO.getInstance();
 
