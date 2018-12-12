@@ -1,11 +1,10 @@
 package webappdesign.action;
 
-import webappdesign.enums.Directories;
+import webappdesign.enums.Directory;
 import webappdesign.model.Article;
 import webappdesign.util.FileUtil;
 
 import javax.xml.transform.*;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.Date;
@@ -16,10 +15,10 @@ public class ActionTransformFileToXSLT implements IAction {
     public Object doAction(Object object) {
         String fileName = (String) object;
 
-        Source xslt = new StreamSource(new File(Directories.JATS_XSLT_PATH.getDirectory()));
+        Source xslt = new StreamSource(new File(Directory.JATS_XSLT_PATH.getDirectory()));
 
         List<File> files = FileUtil.getFilesFromFolder(new File(
-                Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator + fileName));
+                Directory.UPLOADED_FILES_PATH.getDirectory() + File.separator + fileName));
 
         File xml = FileUtil.findJATS(files);
         Source text = new StreamSource(xml);

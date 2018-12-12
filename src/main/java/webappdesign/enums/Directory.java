@@ -3,7 +3,7 @@ package webappdesign.enums;
 import java.io.File;
 import java.util.Date;
 
-public enum Directories {
+public enum Directory {
     HOME_PATH("/home/asemrin"),
     PROJECT_PATH(HOME_PATH.getDirectory() + "/Documents/IdeaProjects/Maven Projects/Literatum - AhmadSemrin"),
     UPLOADED_FILES_PATH(PROJECT_PATH.getDirectory() + "/Uploaded Files"),
@@ -16,7 +16,7 @@ public enum Directories {
 
     String directory;
 
-    Directories(String directory) {
+    Directory(String directory) {
         this.directory = directory;
     }
 

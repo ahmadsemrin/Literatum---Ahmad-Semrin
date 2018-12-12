@@ -1,13 +1,13 @@
 package webappdesign.action;
 
-import webappdesign.enums.Directories;
+import webappdesign.enums.Directory;
 import webappdesign.util.FileUtil;
 
 import java.io.*;
 import java.util.List;
 
 public class ActionUnzipFile implements IAction {
-    private static final String OUTPUT_FOLDER = Directories.UPLOAD_FILE_PATH.getDirectory();
+    private static final String OUTPUT_FOLDER = Directory.UPLOAD_FILE_PATH.getDirectory();
 
     @Override
     public Object doAction(Object object) {

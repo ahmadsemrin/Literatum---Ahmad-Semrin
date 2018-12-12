@@ -2,6 +2,7 @@ package webappdesign.model.data_access_object.file;
 
 import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
+import webappdesign.util.ErrorHandlerUtil;
 
 import javax.swing.*;
 import java.sql.*;
@@ -241,8 +242,7 @@ public class FileDAO implements IFileDAO {
     }
 
     private void displayFailMessageToUser() {
-        JOptionPane.showMessageDialog(null, "File that you are trying to insert is already "
-                + "existed. Please insert another one.");
+        ErrorHandlerUtil.setFoundFileError();
     }
 
     private void closePreparedStatement(PreparedStatement preparedStatement) {

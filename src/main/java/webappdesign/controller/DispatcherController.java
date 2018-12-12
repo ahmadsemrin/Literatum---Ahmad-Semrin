@@ -3,21 +3,22 @@ package webappdesign.controller;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.w3c.dom.Attr;
 import webappdesign.action.*;
-import webappdesign.enums.Directories;
-import webappdesign.enums.Pages;
+import webappdesign.enums.*;
 import webappdesign.form.UserForm;
 import webappdesign.model.Article;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.User;
 import webappdesign.model.data_access_object.file.FileDAO;
 import webappdesign.model.data_access_object.file.IFileDAO;
+import webappdesign.util.ErrorHandlerUtil;
+import webappdesign.util.StringUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +48,30 @@ public class DispatcherController implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        String uri = request.getRequestURI();
-        int lastIndex = uri.lastIndexOf("/");
-        String pageURI = uri.substring(lastIndex + 1);
+        String pageURI = getURIPage(request);
 
-        String dispatchUrl = null;
-        if ("login".equals(pageURI)) {
-            dispatchUrl = Pages.LOGIN_PAGE.getPage();
-        } else if ("loggedIn".equals(pageURI)) {
+        String dispatchUrl = getDispatcherPage(pageURI, request);
+
+        goToPage(dispatchUrl, request, response, chain, pageURI);
+    }
+
+    private String getURIPage(HttpServletRequest request) {
+        String fullURI = getFullURI(request);
+
+        return StringUtil.getURIPageFromFullURI(fullURI);
+    }
+
+    private String getFullURI(HttpServletRequest request) {
+        return request.getRequestURI();
+    }
+
+    private String getDispatcherPage(String pageURI, HttpServletRequest request) {
+        if (StringUtil.isURI(PageURI.LOGIN_URI.getPageURI(), pageURI)) {
+            return Page.LOGIN_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.LOGGED_IN.getPageURI(), pageURI)) {
             UserForm userForm = new UserForm();
-            userForm.setEmail(request.getParameter("email"));
-            userForm.setPassword(request.getParameter("password"));
+            userForm.setEmail(getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
+            userForm.setPassword(getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
 
             User newUser = new User();
             newUser.setEmail(userForm.getEmail());
@@ -67,70 +81,71 @@ public class DispatcherController implements Filter {
             currentUser = (User) actionContext.executeAction(newUser);
 
             if (currentUser != null) {
-                if (currentUser.getRole().equals("super")) {
-                    dispatchUrl = Pages.SUPER_ADMIN_PAGE.getPage();
-                } else if (currentUser.getRole().equals("admin")) {
-                    dispatchUrl = Pages.ADMIN_PAGE.getPage();
-                } else if (currentUser.getRole().equals("basic")) {
-                    req.setAttribute("articles", articleList);
+                if (isSuperAdmin()) {
+                    return Page.SUPER_ADMIN_PAGE.getPage();
+                } else if (isAdmin()) {
+                    return Page.ADMIN_PAGE.getPage();
+                } else if (isBasicUser()) {
+                    setAttribute(Attribute.ARTICLES_ATTRIBUTE.getAttribute(), articleList, request);
 
-                    dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
+                    return Page.BASIC_USER_PAGE.getPage();
                 }
             } else {
-                req.setAttribute("hiddenFieldLogin", "Make sure you inserted the right email and password.");
+                ErrorHandlerUtil.setLoginInsertionError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
             }
-        } else if ("super".equals(pageURI)) {
+        } else if (StringUtil.isURI(PageURI.SUPER_ADMIN_URI.getPageURI(), pageURI)) {
             if (currentUser == null) {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else if (currentUser.getRole().equals("admin")) {
-                dispatchUrl = Pages.SUPER_ADMIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
+            } else if (isSuperAdmin()) {
+                return Page.SUPER_ADMIN_PAGE.getPage();
             } else {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
             }
-        } else if ("admin".equals(pageURI)) {
+        } else if (StringUtil.isURI(PageURI.ADMIN_URI.getPageURI(), pageURI)) {
             if (currentUser == null) {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else if (currentUser.getRole().equals("admin")) {
-                dispatchUrl = Pages.ADMIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
+            } else if (isAdmin()) {
+                return Page.ADMIN_PAGE.getPage();
             } else {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
             }
-        } else if ("basic".equals(pageURI)) {
+        } else if (StringUtil.isURI(PageURI.BASIC_USER_URI.getPageURI(), pageURI)) {
             if (currentUser == null) {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
-            } else if (currentUser.getRole().equals("basic")){
-                req.setAttribute("articles", articleList);
+                return Page.LOGIN_PAGE.getPage();
+            } else if (isBasicUser()){
+                setAttribute(Attribute.ARTICLES_ATTRIBUTE.getAttribute(), articleList, request);
 
-                dispatchUrl = Pages.BASIC_USER_PAGE.getPage();
+                return Page.BASIC_USER_PAGE.getPage();
             } else {
-                req.setAttribute("hiddenFieldLogin", "You must login first.");
+                ErrorHandlerUtil.setLoginFirstError(request);
 
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
             }
-        } else if ("sign-up".equals(pageURI)) {
-            dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
-        } else if ("signed".equals(pageURI)) {
+        } else if (StringUtil.isURI(PageURI.SIGN_UP_URI.getPageURI(), pageURI)) {
+            return Page.SIGN_UP_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.SIGNED_URI.getPageURI(), pageURI)) {
             UserForm userForm = new UserForm();
-            userForm.setEmail(request.getParameter("email"));
-            userForm.setPassword(request.getParameter("password"));
+            userForm.setEmail(getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
+            userForm.setPassword(getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
 
-            if (req.getParameter("password2").equals(userForm.getPassword())) {
+            if (StringUtil.areStringEqual(getParameter(Parameter.PASSWORD2_PARAMETER.getParameter(), request),
+                    userForm.getPassword())) {
                 User newUser = new User();
                 newUser.setEmail(userForm.getEmail());
                 newUser.setPassword(userForm.getPassword());
-                if (newUser.getEmail().startsWith("admin")) {
+                if (StringUtil.isEmailForAdmin(newUser.getEmail())) {
                     newUser.setRole("admin");
                 } else {
                     newUser.setRole("basic");
@@ -140,15 +155,15 @@ public class DispatcherController implements Filter {
                 actionContext.executeAction(newUser);
 
                 currentUser = null;
-                dispatchUrl = Pages.LOGIN_PAGE.getPage();
+                return Page.LOGIN_PAGE.getPage();
             } else {
-                req.setAttribute("hiddenFieldSignUp", "Passwords are not the same.");
+                ErrorHandlerUtil.setSignUpPasswordNotSameError(request);
 
-                dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
+                return Page.SIGN_UP_PAGE.getPage();
             }
-        } else if ("upload".equals(pageURI)) {
-            dispatchUrl = Pages.UPLOAD_FILE_PAGE.getPage();
-        } else if ("uploaded".equals(pageURI)) {
+        } else if (StringUtil.isURI(PageURI.UPLOAD_URI.getPageURI(), pageURI)) {
+            return Page.UPLOAD_FILE_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.UPLOADED_URI.getPageURI(), pageURI)) {
             ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
             try {
                 List<FileItem> multiFiles = servletFileUpload.parseRequest(request);
@@ -162,18 +177,18 @@ public class DispatcherController implements Filter {
             fileDAO = FileDAO.getInstance();
             uploadedFiles = fileDAO.findAll();
 
-            request.setAttribute("uploadedFiles", uploadedFiles);
+            setAttribute(Attribute.UPLOADED_FILES_ATTRIBUTE.getAttribute(), uploadedFiles, request);
 
-            dispatchUrl = Pages.UPLOADED_FILES_PAGE.getPage();
-        } else if ("table".equals(pageURI)) {
+            return Page.UPLOADED_FILES_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.UPLOADED_FILES_URI.getPageURI(), pageURI)) {
             fileDAO = FileDAO.getInstance();
             uploadedFiles = fileDAO.findAll();
 
-            request.setAttribute("uploadedFiles", uploadedFiles);
+            setAttribute(Attribute.UPLOADED_FILES_ATTRIBUTE.getAttribute(), uploadedFiles, request);
 
-            dispatchUrl = Pages.UPLOADED_FILES_PAGE.getPage();
-        } else if ("transform".equals(pageURI)) {
-            String uploadedFile = req.getParameter("transformFile");
+            return Page.UPLOADED_FILES_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.TRANSFORM_TO_XSLT.getPageURI(), pageURI)) {
+            String uploadedFile = getParameter(Parameter.TRANSFORM_FILE_PARAMETER.getParameter(), request);
 
             ActionContext actionContext = new ActionContext(new ActionTransformFileToXSLT());
             article = (Article) actionContext.executeAction(uploadedFile);
@@ -183,30 +198,56 @@ public class DispatcherController implements Filter {
             }
 
             articleList.add(article);
-        } else if ("article".equals(pageURI)) {
-            String articleName = req.getParameter("articleName");
+        } else if (StringUtil.isURI(PageURI.ARTICLES_URI.getPageURI(), pageURI)) {
+            String articleName = getParameter(Parameter.ARTICLE_NAME_PARAMETER.getParameter(), request);
 
             article = new Article();
             article.setArticleName(articleName);
-        } else if ("addAdmin".equals(pageURI)) {
-            dispatchUrl = Pages.SIGN_UP_PAGE.getPage();
+        } else if (StringUtil.isURI(PageURI.ADD_ADMIN_URI.getPageURI(), pageURI)) {
+            return Page.SIGN_UP_PAGE.getPage();
         }
 
-        if (dispatchUrl != null) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher(dispatchUrl);
-            requestDispatcher.forward(req, resp);
+        return null;
+    }
+
+    private boolean isSuperAdmin() {
+        return StringUtil.isSuperAdmin(currentUser.getRole());
+    }
+
+    private boolean isAdmin() {
+        return StringUtil.isAdmin(currentUser.getRole());
+    }
+
+    private boolean isBasicUser() {
+        return StringUtil.isBasicUser(currentUser.getRole());
+    }
+
+    private String getParameter(String paramName, HttpServletRequest request) {
+        return request.getParameter(paramName);
+    }
+
+    private void setAttribute(String attributeName, Object attributeValue, HttpServletRequest request) {
+        request.setAttribute(attributeName, attributeValue);
+    }
+
+    private void goToPage(String dispatchURL, HttpServletRequest request, HttpServletResponse response,
+                          FilterChain chain, String pageURI) throws IOException, ServletException {
+        if (dispatchURL != null) {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(dispatchURL);
+            requestDispatcher.forward(request, response);
         } else {
-            if ("transform".equals(pageURI) || "article".equals(pageURI)) {
-                findFileAndView(article.getArticleName(), request, response);
+            if (StringUtil.isURI(PageURI.TRANSFORM_TO_XSLT.getPageURI(), pageURI) || StringUtil.isURI(
+                    PageURI.ARTICLES_URI.getPageURI(), pageURI)) {
+                findFileAndView(article.getArticleName(), response);
             } else {
-                chain.doFilter(req, resp);
+                chain.doFilter(request, response);
             }
         }
     }
 
-    private void findFileAndView(String fileName, HttpServletRequest request, HttpServletResponse response)
+    private void findFileAndView(String fileName, HttpServletResponse response)
             throws IOException {
-        File articlesFolder = new File(Directories.ARTICLES_PATH.getDirectory());
+        File articlesFolder = new File(Directory.ARTICLES_PATH.getDirectory());
         File[] articles = articlesFolder.listFiles();
 
         for (File file : articles) {
@@ -226,5 +267,4 @@ public class DispatcherController implements Filter {
             }
         }
     }
-
 }

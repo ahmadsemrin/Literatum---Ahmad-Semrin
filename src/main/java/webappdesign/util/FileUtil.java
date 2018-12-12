@@ -8,7 +8,7 @@ import org.xml.sax.SAXParseException;
 import webappdesign.action.ActionContext;
 import webappdesign.action.ActionUnzipFile;
 import webappdesign.action.ActionValidateFileWithDTDUsingDOM;
-import webappdesign.enums.Directories;
+import webappdesign.enums.Directory;
 import webappdesign.model.UploadedFile;
 import webappdesign.model.data_access_object.file.FileDAO;
 import webappdesign.model.data_access_object.file.IFileDAO;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class FileUtil {
+public final class FileUtil {
     private static List<File> fileList = new ArrayList<>();
 
     public static List<File> getFilesFromFolder(File folder) {
@@ -72,7 +72,7 @@ public class FileUtil {
         try {
             transformer = factory.newTransformer(xsltFile);
 
-            newFile = new File(Directories.ARTICLES_PATH.getDirectory() + File.separator +
+            newFile = new File(Directory.ARTICLES_PATH.getDirectory() + File.separator +
                     xmlFile.getName().substring(0, xmlFile.getName().lastIndexOf('.')) + ".html");
             transformer.transform(destFile, new StreamResult(newFile));
         } catch (TransformerException e) {
@@ -179,7 +179,7 @@ public class FileUtil {
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("JATS-archivearticle1.dtd")) {
                     line = line.replace("JATS-archivearticle1.dtd",
-                            Directories.JATS_DTD_PATH.getDirectory());
+                            Directory.JATS_DTD_PATH.getDirectory());
                 }
 
                 if (line.contains("<self-uri content-type=\"pdf\" xlink:href=\"")) {
@@ -218,7 +218,7 @@ public class FileUtil {
 
     public static void uploadFiles(List<FileItem> files) {
         for (FileItem item : files) {
-            String filePath = Directories.UPLOADED_FILES_PATH.getDirectory() + File.separator + item.getName();
+            String filePath = Directory.UPLOADED_FILES_PATH.getDirectory() + File.separator + item.getName();
             try {
                 item.write(new File(filePath));
             } catch (Exception e) {

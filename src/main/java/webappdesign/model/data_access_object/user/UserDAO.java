@@ -1,6 +1,7 @@
 package webappdesign.model.data_access_object.user;
 
 import webappdesign.model.User;
+import webappdesign.util.ErrorHandlerUtil;
 
 import javax.swing.*;
 import java.sql.*;
@@ -231,8 +232,7 @@ public class UserDAO implements IUserDAO {
     }
 
     private void displayFailMessageToUser() {
-        JOptionPane.showMessageDialog(null, "Email that you are trying to insert is already "
-                + "existed. Please insert another one.");
+        ErrorHandlerUtil.setFoundEmailError();
     }
 
     private void closePreparedStatement(PreparedStatement preparedStatement) {
