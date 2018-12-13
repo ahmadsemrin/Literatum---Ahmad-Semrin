@@ -20,7 +20,7 @@ public class ActionTransformFileToXSLT implements IAction {
                 Directory.UPLOADED_FILES_PATH.getDirectory() + File.separator + fileName));
 
         File xml = FileUtil.findJATS(files);
-        Source text = new StreamSource(xml);
+        Source text = new StreamSource(Objects.requireNonNull(xml));
 
         File newFile = FileUtil.toXSLT(xslt, xml, text);
 
