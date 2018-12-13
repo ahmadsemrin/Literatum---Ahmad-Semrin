@@ -176,9 +176,12 @@ public final class FileUtil {
                 }
 
                 if (line.contains("<self-uri content-type=\"pdf\" xlink:href=\"")) {
-                    String path = jatsFile.getAbsolutePath().substring(0, jatsFile.getAbsolutePath().lastIndexOf("/"));
+                    String oldPath = jatsFile.getAbsolutePath().substring(0, jatsFile.getAbsolutePath().lastIndexOf("/"));
+                    System.out.println(oldPath);
+                    String newPath = oldPath + "/";
+                    System.out.println(newPath);
                     line = line.replace("<self-uri content-type=\"pdf\" xlink:href=\"",
-                            "<self-uri content-type=\"pdf\" xlink:href=\"" + path);
+                            "<self-uri content-type=\"pdf\" xlink:href=\"" + newPath);
                 }
 
                 lines.add(line);
