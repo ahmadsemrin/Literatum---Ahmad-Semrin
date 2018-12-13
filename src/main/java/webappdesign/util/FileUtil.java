@@ -21,7 +21,7 @@ public final class FileUtil {
     private static List<File> getAllFiles(File folder) {
         if(folder.isDirectory()) {
             File[] files = folder.listFiles();
-            for(File currFile : files) {
+            for(File currFile : Objects.requireNonNull(files)) {
                 getAllFiles(currFile);
             }
         } else {
@@ -60,7 +60,7 @@ public final class FileUtil {
 
     public static File toXSLT(Source xsltFile, File xmlFile, Source destFile) {
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = null;
+        Transformer transformer;
         File newFile = null;
         try {
             transformer = factory.newTransformer(xsltFile);
@@ -124,9 +124,9 @@ public final class FileUtil {
 
     public static void unzipFile(String zippedFile, String outputFolder) {
         //get the zip file content
-        ZipInputStream zis = null;
+        ZipInputStream zis;
         //get the zipped file list entry
-        ZipEntry ze = null;
+        ZipEntry ze;
         try {
             zis = new ZipInputStream(new FileInputStream(zippedFile));
             ze = zis.getNextEntry();
@@ -202,7 +202,7 @@ public final class FileUtil {
 
     public static boolean checkDTD(List<File> files) {
         File jatsFile = FileUtil.findJATS(files);
-        FileUtil.modifyJATS(jatsFile);
+        FileUtil.modifyJATS(Objects.requireNonNull(jatsFile));
 
         ActionContext actionContext = new ActionContext(new ActionValidateFileWithDTDUsingDOM());
 
@@ -254,7 +254,7 @@ public final class FileUtil {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             builder.setErrorHandler(new ErrorHandler() {
-                public void warning(SAXParseException exception) throws SAXException {
+                public void warning(SAXParseException exception) {
                     System.out.println("WARNING: " + exception.getMessage());
                 }
 

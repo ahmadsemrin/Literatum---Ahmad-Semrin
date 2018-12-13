@@ -1,7 +1,6 @@
 package webappdesign.model.data_access_object.file;
 
 import webappdesign.model.UploadedFile;
-import webappdesign.util.ErrorHandlerUtil;
 
 import java.sql.*;
 import java.util.*;
@@ -237,10 +236,6 @@ public class FileDAO implements IFileDAO {
         } finally {
             closePreparedStatement(preparedStatement);
         }
-    }
-
-    private void displayFailMessageToUser() {
-        ErrorHandlerUtil.setFoundFileError();
     }
 
     private void closePreparedStatement(PreparedStatement preparedStatement) {

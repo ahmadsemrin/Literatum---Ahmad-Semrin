@@ -19,8 +19,6 @@ import java.util.*;
 @WebFilter(filterName = "DispatcherController", urlPatterns = {"/*"})
 public class DispatcherController implements Filter {
     private User currentUser;
-    private List<UploadedFile> uploadedFiles;
-    private IFileDAO fileDAO;
     private Article article;
     private List<Article> articleList;
 
@@ -32,7 +30,7 @@ public class DispatcherController implements Filter {
         forwardToPage(req, resp, chain);
     }
 
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
 
     }
 
@@ -59,6 +57,8 @@ public class DispatcherController implements Filter {
     }
 
     private String getDispatcherPage(String pageURI, HttpServletRequest request) {
+        List<UploadedFile> uploadedFiles;
+        IFileDAO fileDAO;
         if (StringUtil.isURI(PageURI.LOGIN_URI.getPageURI(), pageURI)) {
             return Page.LOGIN_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.LOGGED_IN.getPageURI(), pageURI)) {
@@ -243,7 +243,7 @@ public class DispatcherController implements Filter {
         File articlesFolder = new File(Directory.ARTICLES_PATH.getDirectory());
         File[] articles = articlesFolder.listFiles();
 
-        for (File file : articles) {
+        for (File file : Objects.requireNonNull(articles)) {
             if (file.getName().equals(fileName)) {
                 FileReader fileReader = new FileReader(file.getAbsoluteFile());
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
