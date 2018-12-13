@@ -3,7 +3,6 @@ package webappdesign.model.data_access_object.user;
 import webappdesign.model.User;
 import webappdesign.util.ErrorHandlerUtil;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 

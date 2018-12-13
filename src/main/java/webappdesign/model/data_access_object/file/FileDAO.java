@@ -1,10 +1,8 @@
 package webappdesign.model.data_access_object.file;
 
 import webappdesign.model.UploadedFile;
-import webappdesign.model.User;
 import webappdesign.util.ErrorHandlerUtil;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 

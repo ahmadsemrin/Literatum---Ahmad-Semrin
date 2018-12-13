@@ -1,8 +1,7 @@
 package webappdesign.action;
 
 import webappdesign.model.User;
-import webappdesign.model.data_access_object.user.IUserDAO;
-import webappdesign.model.data_access_object.user.UserDAO;
+import webappdesign.model.data_access_object.user.*;
 
 public class ActionSignUp implements IAction {
     @Override

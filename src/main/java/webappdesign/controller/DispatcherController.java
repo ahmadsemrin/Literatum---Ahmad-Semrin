@@ -3,25 +3,18 @@ package webappdesign.controller;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.w3c.dom.Attr;
 import webappdesign.action.*;
 import webappdesign.enums.*;
 import webappdesign.form.UserForm;
-import webappdesign.model.Article;
-import webappdesign.model.UploadedFile;
-import webappdesign.model.User;
-import webappdesign.model.data_access_object.file.FileDAO;
-import webappdesign.model.data_access_object.file.IFileDAO;
-import webappdesign.util.ErrorHandlerUtil;
-import webappdesign.util.StringUtil;
+import webappdesign.model.*;
+import webappdesign.model.data_access_object.file.*;
+import webappdesign.util.*;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @WebFilter(filterName = "DispatcherController", urlPatterns = {"/*"})
 public class DispatcherController implements Filter {

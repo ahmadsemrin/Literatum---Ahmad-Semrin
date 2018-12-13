@@ -1,47 +1,40 @@
 package webappdesign.util;
 
 import org.apache.commons.fileupload.FileItem;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import webappdesign.action.ActionContext;
-import webappdesign.action.ActionUnzipFile;
-import webappdesign.action.ActionValidateFileWithDTDUsingDOM;
+import org.xml.sax.*;
+import webappdesign.action.*;
 import webappdesign.enums.Directory;
 import webappdesign.model.UploadedFile;
-import webappdesign.model.data_access_object.file.FileDAO;
-import webappdesign.model.data_access_object.file.IFileDAO;
+import webappdesign.model.data_access_object.file.*;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.regex.*;
+import java.util.zip.*;
 
 public final class FileUtil {
     private static List<File> fileList = new ArrayList<>();
 
-    public static List<File> getFilesFromFolder(File folder) {
+    private static List<File> getAllFiles(File folder) {
         if(folder.isDirectory()) {
             File[] files = folder.listFiles();
             for(File currFile : files) {
-                getFilesFromFolder(currFile);
+                getAllFiles(currFile);
             }
         } else {
             fileList.add(folder);
         }
 
         return fileList;
+    }
+
+    public static List<File> getFilesFromFolder(File folder) {
+        fileList = new ArrayList<>();
+
+        return getAllFiles(folder);
     }
 
     public static File findJATS(List<File> files) {
