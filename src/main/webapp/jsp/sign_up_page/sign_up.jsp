@@ -12,12 +12,11 @@
   <div class="left">
     <form method="post" action="signed">
       <h1>Sign up</h1>
-      <input type="text" name="username" placeholder="Username" />
       <input type="text" name="email" placeholder="E-mail" />
       <input type="password" name="password" placeholder="Password" />
       <input type="password" name="password2" placeholder="Retype password" />
       <span class="txt1" id="txt" style="color: red">
-          <%=(request.getAttribute("hiddenFieldSignUp") != null)?request.getAttribute("hiddenFieldSignUp"):""%>
+        <%=(request.getAttribute("hiddenFieldSignUp") != null)?request.getAttribute("hiddenFieldSignUp"):""%>
       </span>
       <input type="submit" name="signup_submit" value="Sign me up" />
     </form>

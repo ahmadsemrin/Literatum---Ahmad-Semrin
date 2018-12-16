@@ -176,7 +176,8 @@ public final class FileUtil {
                 }
 
                 if (line.contains("<self-uri content-type=\"pdf\" xlink:href=\"")) {
-                    String oldPath = jatsFile.getAbsolutePath().substring(0, jatsFile.getAbsolutePath().lastIndexOf("/"));
+                    String oldPath = jatsFile.getAbsolutePath().substring(0, jatsFile.getAbsolutePath().lastIndexOf(
+                            "/"));
                     System.out.println(oldPath);
                     String newPath = oldPath + "/";
                     System.out.println(newPath);

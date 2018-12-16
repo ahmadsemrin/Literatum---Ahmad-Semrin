@@ -1,13 +1,9 @@
 package webappdesign.controller;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import webappdesign.action.*;
 import webappdesign.enums.*;
 import webappdesign.form.UserForm;
 import webappdesign.model.*;
-import webappdesign.model.data_access_object.file.*;
 import webappdesign.util.*;
 
 import javax.servlet.*;
@@ -20,7 +16,7 @@ import java.util.*;
 public class DispatcherController implements Filter {
     private User currentUser;
     private Article article;
-    private List<Article> articleList;
+    public static List<Article> articleList;
 
     public void destroy() {
     }
@@ -57,14 +53,12 @@ public class DispatcherController implements Filter {
     }
 
     private String getDispatcherPage(String pageURI, HttpServletRequest request) {
-        List<UploadedFile> uploadedFiles;
-        IFileDAO fileDAO;
         if (StringUtil.isURI(PageURI.LOGIN_URI.getPageURI(), pageURI)) {
             return Page.LOGIN_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.LOGGED_IN.getPageURI(), pageURI)) {
             UserForm userForm = new UserForm();
-            userForm.setEmail(getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
-            userForm.setPassword(getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
+            userForm.setEmail(ParameterUtil.getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
+            userForm.setPassword(ParameterUtil.getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
 
             User newUser = new User();
             newUser.setEmail(userForm.getEmail());
@@ -79,7 +73,7 @@ public class DispatcherController implements Filter {
                 } else if (isAdmin()) {
                     return Page.ADMIN_PAGE.getPage();
                 } else if (isBasicUser()) {
-                    setAttribute(Attribute.ARTICLES_ATTRIBUTE.getAttribute(), articleList, request);
+                    AttributeUtil.setAttribute(Attribute.ARTICLES_ATTRIBUTE.getAttribute(), articleList, request);
 
                     return Page.BASIC_USER_PAGE.getPage();
                 }
@@ -118,7 +112,7 @@ public class DispatcherController implements Filter {
 
                 return Page.LOGIN_PAGE.getPage();
             } else if (isBasicUser()){
-                setAttribute(Attribute.ARTICLES_ATTRIBUTE.getAttribute(), articleList, request);
+                AccessControlUtil.viewArticles(currentUser, request);
 
                 return Page.BASIC_USER_PAGE.getPage();
             } else {
@@ -130,15 +124,16 @@ public class DispatcherController implements Filter {
             return Page.SIGN_UP_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.SIGNED_URI.getPageURI(), pageURI)) {
             UserForm userForm = new UserForm();
-            userForm.setEmail(getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
-            userForm.setPassword(getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
+            userForm.setEmail(ParameterUtil.getParameter(Parameter.EMAIL_PARAMETER.getParameter(), request));
+            userForm.setPassword(ParameterUtil.getParameter(Parameter.PASSWORD_PARAMETER.getParameter(), request));
 
-            if (StringUtil.areStringEqual(getParameter(Parameter.PASSWORD2_PARAMETER.getParameter(), request),
-                    userForm.getPassword())) {
+            if (StringUtil.areStringsEqual(ParameterUtil.getParameter(Parameter.PASSWORD2_PARAMETER.getParameter(),
+                    request), userForm.getPassword())) {
                 User newUser = new User();
                 newUser.setEmail(userForm.getEmail());
                 newUser.setPassword(userForm.getPassword());
-                if (StringUtil.isEmailForAdmin(newUser.getEmail())) {
+
+                if (currentUser != null && isSuperAdmin()) {
                     newUser.setRole("admin");
                 } else {
                     newUser.setRole("basic");
@@ -157,31 +152,15 @@ public class DispatcherController implements Filter {
         } else if (StringUtil.isURI(PageURI.UPLOAD_URI.getPageURI(), pageURI)) {
             return Page.UPLOAD_FILE_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.UPLOADED_URI.getPageURI(), pageURI)) {
-            ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
-            try {
-                List<FileItem> multiFiles = servletFileUpload.parseRequest(request);
-
-                ActionContext actionContext = new ActionContext(new ActionUploadFile());
-                actionContext.executeAction(multiFiles);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            fileDAO = FileDAO.getInstance();
-            uploadedFiles = fileDAO.findAll();
-
-            setAttribute(Attribute.UPLOADED_FILES_ATTRIBUTE.getAttribute(), uploadedFiles, request);
+            AccessControlUtil.uploadFile(currentUser, request);
 
             return Page.UPLOADED_FILES_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.UPLOADED_FILES_URI.getPageURI(), pageURI)) {
-            fileDAO = FileDAO.getInstance();
-            uploadedFiles = fileDAO.findAll();
-
-            setAttribute(Attribute.UPLOADED_FILES_ATTRIBUTE.getAttribute(), uploadedFiles, request);
+            AccessControlUtil.viewUploadedFiles(currentUser, request);
 
             return Page.UPLOADED_FILES_PAGE.getPage();
         } else if (StringUtil.isURI(PageURI.TRANSFORM_TO_XSLT.getPageURI(), pageURI)) {
-            String uploadedFile = getParameter(Parameter.TRANSFORM_FILE_PARAMETER.getParameter(), request);
+            String uploadedFile = ParameterUtil.getParameter(Parameter.TRANSFORM_FILE_PARAMETER.getParameter(), request);
 
             ActionContext actionContext = new ActionContext(new ActionTransformFileToXSLT());
             article = (Article) actionContext.executeAction(uploadedFile);
@@ -192,7 +171,7 @@ public class DispatcherController implements Filter {
 
             articleList.add(article);
         } else if (StringUtil.isURI(PageURI.ARTICLES_URI.getPageURI(), pageURI)) {
-            String articleName = getParameter(Parameter.ARTICLE_NAME_PARAMETER.getParameter(), request);
+            String articleName = ParameterUtil.getParameter(Parameter.ARTICLE_NAME_PARAMETER.getParameter(), request);
 
             article = new Article();
             article.setArticleName(articleName);
@@ -204,24 +183,18 @@ public class DispatcherController implements Filter {
     }
 
     private boolean isSuperAdmin() {
-        return StringUtil.isSuperAdmin(currentUser.getRole());
+        return AccessControlUtil.isSuperAdmin(currentUser);
     }
 
     private boolean isAdmin() {
-        return StringUtil.isAdmin(currentUser.getRole());
+        return AccessControlUtil.isAdmin(currentUser);
     }
 
     private boolean isBasicUser() {
-        return StringUtil.isBasicUser(currentUser.getRole());
+        return AccessControlUtil.isBasicUser(currentUser);
     }
 
-    private String getParameter(String paramName, HttpServletRequest request) {
-        return request.getParameter(paramName);
-    }
 
-    private void setAttribute(String attributeName, Object attributeValue, HttpServletRequest request) {
-        request.setAttribute(attributeName, attributeValue);
-    }
 
     private void goToPage(String dispatchURL, HttpServletRequest request, HttpServletResponse response,
                           FilterChain chain, String pageURI) throws IOException, ServletException {

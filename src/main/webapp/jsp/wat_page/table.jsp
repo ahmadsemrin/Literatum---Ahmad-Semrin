@@ -505,7 +505,7 @@
                                                     <td>
                                                         <span class="block-email">${uploadedFile.email}</span>
                                                     </td>
-                                                    <td class="desc">${uploadedFile.file}</td>
+                                                    <td class="desc">${uploadedFile.extractedFile}</td>
                                                     <td>${uploadedFile.date}</td>
                                                     <td>
                                                         <c:if test="${uploadedFile.status == 'Processed'}">
